@@ -47,15 +47,32 @@
           marqueeGroup.append(documentFragment);
       }
     };
+	  
+	const duplicateChildElements = (scope, widgetPrefix) => {
+	  let marqueeGroups = $(scope).find(`.${widgetPrefix}-marquee-group`);
+	  let targetChildCount = 10;
 
-    // Helper function for duplicating child elements
-    const duplicateChildElements = (scope, widgetPrefix) => {
-      let marqueeGroups = $(scope).find(`.${widgetPrefix}-marquee-group`);
-      let targetChildCount = 8;
+	  marqueeGroups.each(function () {
+		let childElements = $(this).children();
+		let childCount = childElements.length;
 
-      adjustChildElements(marqueeGroups.eq(0), targetChildCount);
-      adjustChildElements(marqueeGroups.eq(1), targetChildCount);
-    };
+		if (childCount < targetChildCount) {
+		  let duplicatesNeeded = targetChildCount - childCount;
+		  let cloneCount = Math.floor(duplicatesNeeded / childCount);
+
+		  // Append clones from the first elements until we reach the target count
+		  for (let i = 0; i < cloneCount; i++) {
+			childElements.clone().appendTo($(this));
+		  }
+
+		  // After cloning full sets, clone only the required number of elements from the start
+		  let remainingDuplicates = targetChildCount - $(this).children().length;
+		  if (remainingDuplicates > 0) {
+			childElements.slice(0, remainingDuplicates).clone().appendTo($(this));
+		  }
+		}
+	  });
+	};
     
     // Helper function for setting animation duration
     const configureAnimationDuration = (element, speed, totalChildrenCount, originalChildrenCount) => {
