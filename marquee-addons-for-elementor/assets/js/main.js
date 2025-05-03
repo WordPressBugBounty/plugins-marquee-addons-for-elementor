@@ -47,32 +47,32 @@
           marqueeGroup.append(documentFragment);
       }
     };
-	  
-	const duplicateChildElements = (scope, widgetPrefix) => {
-	  let marqueeGroups = $(scope).find(`.${widgetPrefix}-marquee-group`);
-	  let targetChildCount = 10;
 
-	  marqueeGroups.each(function () {
-		let childElements = $(this).children();
-		let childCount = childElements.length;
+    const duplicateChildElements = (scope, widgetPrefix) => {
+      let marqueeGroups = $(scope).find(`.${widgetPrefix}-marquee-group`);
+      let targetChildCount = 10;
+      
+      marqueeGroups.each(function () {
+      let childElements = $(this).children();
+      let childCount = childElements.length;
 
-		if (childCount < targetChildCount) {
-		  let duplicatesNeeded = targetChildCount - childCount;
-		  let cloneCount = Math.floor(duplicatesNeeded / childCount);
+      if (childCount === 0) return;
 
-		  // Append clones from the first elements until we reach the target count
-		  for (let i = 0; i < cloneCount; i++) {
-			childElements.clone().appendTo($(this));
-		  }
+      if (childCount < targetChildCount) {
+        let duplicatesNeeded = targetChildCount - childCount;
+        let cloneCount = Math.floor(duplicatesNeeded / childCount);
 
-		  // After cloning full sets, clone only the required number of elements from the start
-		  let remainingDuplicates = targetChildCount - $(this).children().length;
-		  if (remainingDuplicates > 0) {
-			childElements.slice(0, remainingDuplicates).clone().appendTo($(this));
-		  }
-		}
-	  });
-	};
+        for (let i = 0; i < cloneCount; i++) {
+        childElements.clone().appendTo($(this));
+        }
+
+        let remainingDuplicates = targetChildCount - $(this).children().length;
+        if (remainingDuplicates > 0) {
+        childElements.slice(0, remainingDuplicates).clone().appendTo($(this));
+        }
+      }
+      });
+    };
     
     // Helper function for setting animation duration
     const configureAnimationDuration = (element, speed, totalChildrenCount, originalChildrenCount) => {

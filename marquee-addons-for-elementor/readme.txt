@@ -3,7 +3,7 @@ Contributors: debuggersstudio
 Tags: marquee, slider, image marquee, video marquee, text marquee
 Requires at least: 5.8
 Tested up to: 6.8
-Stable tag: 1.2.5
+Stable tag: 1.2.6
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -136,6 +136,9 @@ The developers release regular updates to improve features, fix bugs, and ensure
 First, ensure that you’ve activated the plugin correctly. If the issue persists, try clearing your browser cache or updating your Elementor plugin. If the problem continues, you can reach out to the support team for assistance.
 
 == Changelog ==
+
+= 1.2.6 
+- Fix edit issue image marquee in Safari
 
 = 1.2.5
 - Fix the problem where only 8 images are showing and make sure more images can be displayed after that.
