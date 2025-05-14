@@ -315,6 +315,34 @@
         }
       });
     });
+	  
+	// Load marquee when it comes into viewport 
+    function checkVisibility(wrapper, element) {
+
+      const viewportHeight = window.innerHeight;
+      
+      $(wrapper).each(function () {
+
+        const rect = this.getBoundingClientRect();
+        const elements = $(this).find(element);
+        const isVisible = rect.bottom > 0 && rect.top < viewportHeight;
+        if (!isVisible) {
+          elements.css("animation-play-state", "paused");
+        } else {
+          elements.css("animation-play-state", "running");
+        }
+      });
+
+    }
+
+    function handleMultiple() {
+      checkVisibility('.deensimc-wrapper', '.deensimc-marquee-group');
+      checkVisibility('.deensimc-tes', '.deensimc-tes-content');
+    }
+
+    handleMultiple();
+
+    $(window).on("scroll resize", handleMultiple);
 
   });
 })(jQuery, window._);
