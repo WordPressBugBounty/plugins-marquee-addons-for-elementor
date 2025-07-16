@@ -254,4 +254,16 @@
   .deensimc-marquee-vertical .deensimc-marquee-group {
     animation-name: deensimc-scroll-x !important;
   }
+  
+	[dir=rtl] .deensimc-marquee, [dir=rtl] .deensimc-marquee-group {
+		flex-direction: row-reverse !important;
+	}
+}
+
+[dir=rtl] .deensimc-marquee, [dir=rtl] .deensimc-marquee-group {
+	flex-direction: row-reverse;
+}
+
+[dir=rtl] .deensimc-marquee-vertical, [dir=rtl] .deensimc-marquee-vertical .deensimc-marquee-group {
+	flex-direction: column;
 }
