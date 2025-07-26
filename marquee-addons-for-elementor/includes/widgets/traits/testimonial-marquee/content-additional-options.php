@@ -54,7 +54,7 @@ trait Testimonialmarquee_Content_Additional_Options {
 		$this->add_control(
 			'deensimc_tesimonial_excerpt_title',
 			[
-				'label' => esc_html__( 'Show More', 'marquee-addons-for-elementor' ),
+				'label' => esc_html__( 'Expand Text', 'marquee-addons-for-elementor' ),
 				'type' =>  Controls_Manager::TEXT,
 				'default' => esc_html__( 'Show more...', 'marquee-addons-for-elementor' ),
 			]
@@ -63,7 +63,7 @@ trait Testimonialmarquee_Content_Additional_Options {
 		$this->add_control(
 			'deensimc_tesimonial_excerpt_title_less',
 			[
-				'label' => esc_html__( 'Show Less', 'marquee-addons-for-elementor' ),
+				'label' => esc_html__( 'Collapse Text', 'marquee-addons-for-elementor' ),
 				'type' =>  Controls_Manager::TEXT,
 				'default' => esc_html__( 'Show less', 'marquee-addons-for-elementor' ),
 			]
