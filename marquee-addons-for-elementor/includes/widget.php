@@ -9,7 +9,7 @@ final class Marquee {
 	 * @var string The addon version.
 	 */
 
-	const VERSION = '2.1.7';
+	const VERSION = '2.1.8';
 
 	/**
 	 * Minimum Elementor Version
@@ -238,7 +238,17 @@ final class Marquee {
 	}
 
 	public function deensimc_frontend_scripts() {
+		wp_register_script( 'deensimc-pause-on-hover', DEENSIMC_ASSETS_URL  . 'js/handlePauseOnHover.js' , [ 'jquery' ] , self::VERSION, false );
+		wp_register_script( 'deensimc-setup-marquee', DEENSIMC_ASSETS_URL  . 'js/setupMarquee.js' , [ 'jquery' ] , self::VERSION, false );
+		wp_register_script( 'deensimc-toggle-blockquote', DEENSIMC_ASSETS_URL  . 'js/toggleBlockquote.js' , [ 'jquery' ] , self::VERSION, false );
+		wp_register_script( 'deensimc-show-more-or-less', DEENSIMC_ASSETS_URL  . 'js/initShowMoreOrLess.js' , [ 'jquery' ] , self::VERSION, false );
 		wp_register_script( 'deensimc-main', DEENSIMC_ASSETS_URL  . 'js/main.js' , [ 'jquery' ] , self::VERSION, false );
+
+		
+		wp_enqueue_script( 'deensimc-pause-on-hover' );
+		wp_enqueue_script( 'deensimc-setup-marquee' );
+		wp_enqueue_script( 'deensimc-toggle-blockquote' );
+		wp_enqueue_script( 'deensimc-show-more-or-less' );
 		wp_enqueue_script( 'deensimc-main' );
 	}
 	public function deensimc_editor_styles() {
@@ -291,20 +301,20 @@ final class Marquee {
 		require_once(  __DIR__ . '/widgets/traits/text-marquee/content-additional-options.php' );
 		require_once(  __DIR__ . '/widgets/traits/text-marquee/style-text-contents.php' );
 
+
 		require_once(  __DIR__ . '/widgets/class-deensimc-image-marquee.php' );
 		require_once(  __DIR__ . '/widgets/class-deensimc-stacked-slider.php' );
 		require_once(  __DIR__ . '/widgets/class-deensimc-image-accordion.php' );
 		require_once(  __DIR__ . '/widgets/class-deensimc-text-marquee.php' );
 		require_once(  __DIR__ . '/widgets/class-deensimc-testimonial-marquee.php' );
 		require_once(  __DIR__ . '/widgets/class-deensimc-video-marquee.php' );
-		
+
 		$widgets_manager->register( new \Deensimc_Image_Marquee() );
 		$widgets_manager->register( new \Deensimc_Stacked_Slider() );
 		$widgets_manager->register( new \Deensimc_Image_Accordion() );
 		$widgets_manager->register( new \Deensimc_Text_Marquee() );
 		$widgets_manager->register( new \Deensimc_Testimonial_Marquee() );
 		$widgets_manager->register( new \Deensimc_Video_Marquee() );
-
 	}
 
 	function deensimc_add_categories( $elements_manager ) {
