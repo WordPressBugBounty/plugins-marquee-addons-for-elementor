@@ -3,7 +3,7 @@ Contributors: debuggersstudio
 Tags: marquee, slider, image marquee, video marquee, text marquee
 Requires at least: 5.8
 Tested up to: 6.8
-Stable tag: 2.1.8
+Stable tag: 2.1.9
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -20,27 +20,27 @@ Different Marquee Addons:
  
 ### Image Marquee:
  
-lets you add smooth scrolling marquee effects for images, featuring lightbox, image links, lazy loading, adjustable animation speed, and customizable scrolling direction. It provides an easy and effective way to showcase your images loop on your website. [Demo](https://wp.dstudio.asia/marquee-addons/image-marquee/)
+lets you add smooth scrolling marquee effects for images, featuring lightbox, image links, lazy loading, adjustable animation speed, and customizable scrolling direction. It provides an easy and effective way to showcase your images loop on your website. [Demo](https://marqueeaddons.com/image-marquee/)
 
 ### Text marquee:
 
-allows you to display scrolling marquee texts with icons and repeat the content as needed. You can set the scrolling direction vertical or horizontally, giving you flexibility to match the layout and flow of your website's design. [Demo](https://wp.dstudio.asia/marquee-addons/text-marquee/)
+allows you to display scrolling marquee texts with icons and repeat the content as needed. You can set the scrolling direction vertical or horizontally, giving you flexibility to match the layout and flow of your website's design. [Demo](https://marqueeaddons.com/text-marquee/)
 
 ### Testimonial Marquee:
 
-Lets you smoothly scroll through client feedback, names, and ratings. It's a simple way to display testimonials in a continuous loop, helping you present customer reviews neatly on your website. [Demo](https://wp.dstudio.asia/marquee-addons/testimonial-marquee/)
+Lets you smoothly scroll through client feedback, names, and ratings. It's a simple way to display testimonials in a continuous loop, helping you present customer reviews neatly on your website. [Demo](https://marqueeaddons.com/testimonial-marquee/)
  
 ### Video Marquee:
  
-Lets you add repeated video items, supporting platforms like YouTube, Vimeo, Dailymotion, and self-hosted videos. You can also customize video settings, offering a smooth scrolling experience for video content on your site. [Demo](https://wp.dstudio.asia/marquee-addons/video-marquee/)
+Lets you add repeated video items, supporting platforms like YouTube, Vimeo, Dailymotion, and self-hosted videos. You can also customize video settings, offering a smooth scrolling experience for video content on your site. [Demo](https://marqueeaddons.com/video-marquee/)
 
 ### Stacked Slider:
  
-Show several images in a stacked slider format, where users can shuffle through different layers of visuals. This is great for displaying product collections, and portfolios, in a neat and interactive manner. [Demo](https://wp.dstudio.asia/marquee-addons/stacked-slider/)
+Show several images in a stacked slider format, where users can shuffle through different layers of visuals. This is great for displaying product collections, and portfolios, in a neat and interactive manner. [Demo](https://marqueeaddons.com/stacked-slider/)
 
 ### Image Accordion:
  
-Create an engaging accordion-style effect with images, Where each image expands as the user hovers over it. Ideal for displaying portfolios, product features or any content that requires a unique, interactive display. [Demo](https://wp.dstudio.asia/marquee-addons/image-accordion/)
+Create an engaging accordion-style effect with images, Where each image expands as the user hovers over it. Ideal for displaying portfolios, product features or any content that requires a unique, interactive display. [Demo](https://marqueeaddons.com/image-accordion/)
  
 ### Key features:
  
@@ -136,6 +136,9 @@ The developers release regular updates to improve features, fix bugs, and ensure
 First, ensure that you’ve activated the plugin correctly. If the issue persists, try clearing your browser cache or updating your Elementor plugin. If the problem continues, you can reach out to the support team for assistance.
 
 == Changelog ==
+
+= 2.1.9
+- Removed demo import functionality
 
 = 2.1.8
 - Fix the shadow issue in each marquee.
