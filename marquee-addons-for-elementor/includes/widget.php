@@ -9,7 +9,7 @@ final class Marquee {
 	 * @var string The addon version.
 	 */
 
-	const VERSION = '2.1.9';
+	const VERSION = '2.2.0';
 
 	/**
 	 * Minimum Elementor Version
@@ -206,14 +206,91 @@ final class Marquee {
 	
 	public function init() {
 
+		add_action( 'admin_enqueue_scripts', [ $this, 'deensimc_notice_enqueue_scripts' ] );
+		add_action( 'admin_notices', [ $this, 'deensimc_rate_us' ] );
+		add_action( 'wp_ajax_deensimc_notice_dismiss', [ $this, 'deensimc_notice_dismiss' ] );
 		add_action( 'elementor/frontend/after_enqueue_styles', [ $this, 'deensimc_frontend_styles' ] );
 		add_action( 'elementor/frontend/after_register_scripts', [ $this, 'deensimc_frontend_scripts' ] );
 		add_action( 'elementor/widgets/register', [ $this, 'deensimc_register_widgets' ] );
 		add_action( 'elementor/elements/categories_registered', [ $this, 'deensimc_add_categories' ] );
 		add_action( 'elementor/editor/before_enqueue_styles', [ $this, 'deensimc_editor_styles' ] );
 		add_action( 'elementor/frontend/after_enqueue_scripts', [ $this, 'deensimc_elementor_library' ] );
+		add_filter( 'plugin_action_links_marquee-addons-for-elementor/marquee-addons-for-elementor.php', [ $this, 'deensimc_upgrade_link' ] );
 
 	}
+
+	public function deensimc_notice_enqueue_scripts( $hook ) {
+        if ( $hook !== 'plugins.php' ) {
+            return;
+        }
+
+        wp_enqueue_style(
+            'deensimc-feedback-style',
+            DEENSIMC_ASSETS_URL . 'css/admin/notice.css'
+        );
+
+        wp_enqueue_script(
+            'deensimc-feedback-script',
+           	DEENSIMC_ASSETS_URL . 'js/admin/dismiss.js',
+            [ 'jquery' ],
+            self::VERSION,
+            true
+        );
+
+        wp_localize_script(
+            'deensimc-feedback-script',
+            'DeensimcFB',
+            [
+                'ajax_url' => admin_url( 'admin-ajax.php' ),
+                'nonce'    => wp_create_nonce( 'deensimc_dismiss_nonce' ),
+                'days'     => 30,
+            ]
+        );
+    }
+
+
+	public function deensimc_rate_us() {
+
+        global $pagenow;
+
+        if ( $pagenow !== 'plugins.php' ) {
+            return;
+        }
+
+        if ( ! current_user_can( 'manage_options' ) ) {
+            return;
+        }
+
+        if ( get_transient( 'deensimc_rate_us_'.self::VERSION ) ) {
+            return;
+        }
+
+		echo '<div id="deensimc-feedback-notice" class="deensimc-notice-wrap notice is-dismissible deensimc-dismiss-btn">'; 
+		echo '  <div class="deensimc-notice-icon">';
+		echo '    <img src="' . esc_url( DEENSIMC_ASSETS_URL ) . 'images/library-icon.png" alt="Notice Icon" />';
+		echo '  </div>'; 
+		echo '  <div class="deensimc-notice-content">';
+		echo '    <h3>Enjoying our plugin MarqueeAddons?</h3>';
+		echo '    <p>Help us improve it by sharing your feedback. It only takes a moment, and it really helps us build a better experience for you.</p>';
+		echo '    <a href="https://wordpress.org/support/plugin/marquee-addons-for-elementor/reviews/#new-post" target="_blank" class="button button-primary">Rate Us</a>';
+		echo '    <button class="button deensimc-dismiss-btn">No thanks</button>';
+		echo '  </div>';
+		echo '</div>';
+
+
+    }
+
+	 public function deensimc_notice_dismiss() {
+        check_ajax_referer( 'deensimc_dismiss_nonce', 'nonce' );
+        set_transient(
+            'deensimc_rate_us_'.self::VERSION,
+            true,
+            30 * 86400
+        );
+        wp_send_json_success();
+    }
+
+
 
 	public function deensimc_frontend_styles() {
 
@@ -223,6 +300,7 @@ final class Marquee {
 		wp_register_style( 'deensimc-marquee-style', DEENSIMC_ASSETS_URL . 'css/marquee.css', null, self::VERSION, false );
 		wp_register_style( 'deensimc-testimonial-style', DEENSIMC_ASSETS_URL . 'css/testimonial.css', null, self::VERSION, false );
 		wp_register_style( 'deensimc-video-style', DEENSIMC_ASSETS_URL . 'css/video.css', null, self::VERSION, false );
+		wp_register_style('deensimc-news-ticker-style', DEENSIMC_ASSETS_URL . 'css/news-ticker.css', null, self::VERSION, false );
 		
 		wp_enqueue_style( 'deensimc-swiper-style' );
 		wp_enqueue_style( 'deensimc-accordion-style' );
@@ -230,6 +308,7 @@ final class Marquee {
 		wp_enqueue_style( 'deensimc-marquee-style' );
 		wp_enqueue_style( 'deensimc-testimonial-style' );
 		wp_enqueue_style( 'deensimc-video-style' );
+		wp_enqueue_style( 'deensimc-news-ticker-style' );
 
 	}
 
@@ -238,25 +317,42 @@ final class Marquee {
 	}
 
 	public function deensimc_frontend_scripts() {
-		wp_register_script( 'deensimc-pause-on-hover', DEENSIMC_ASSETS_URL  . 'js/handlePauseOnHover.js' , [ 'jquery' ] , self::VERSION, false );
-		wp_register_script( 'deensimc-setup-marquee', DEENSIMC_ASSETS_URL  . 'js/setupMarquee.js' , [ 'jquery' ] , self::VERSION, false );
-		wp_register_script( 'deensimc-toggle-blockquote', DEENSIMC_ASSETS_URL  . 'js/toggleBlockquote.js' , [ 'jquery' ] , self::VERSION, false );
-		wp_register_script( 'deensimc-show-more-or-less', DEENSIMC_ASSETS_URL  . 'js/initShowMoreOrLess.js' , [ 'jquery' ] , self::VERSION, false );
+		wp_register_script( 'deensimc_handle_pause_on_hover', DEENSIMC_ASSETS_URL  . 'js/handlePauseOnHover.js' , [ 'jquery' ] , self::VERSION, false );
+		wp_register_script( 'deensimc_setup_marquee', DEENSIMC_ASSETS_URL  . 'js/setupMarquee.js' , [ 'jquery' ] , self::VERSION, false );
+		wp_register_script( 'deensimc_toggle_blockquote', DEENSIMC_ASSETS_URL  . 'js/toggleBlockquote.js' , [ 'jquery' ] , self::VERSION, false );
+		wp_register_script( 'deensimc_init_show_more_or_less', DEENSIMC_ASSETS_URL  . 'js/initShowMoreOrLess.js' , [ 'jquery' ] , self::VERSION, false );
 		wp_register_script( 'deensimc-main', DEENSIMC_ASSETS_URL  . 'js/main.js' , [ 'jquery' ] , self::VERSION, false );
 
 		
-		wp_enqueue_script( 'deensimc-pause-on-hover' );
-		wp_enqueue_script( 'deensimc-setup-marquee' );
-		wp_enqueue_script( 'deensimc-toggle-blockquote' );
-		wp_enqueue_script( 'deensimc-show-more-or-less' );
+		wp_enqueue_script( 'deensimc_handle_pause_on_hover' );
+		wp_enqueue_script( 'deensimc_setup_marquee' );
+		wp_enqueue_script( 'deensimc_toggle_blockquote' );
+		wp_enqueue_script( 'deensimc_init_show_more_or_less' );
 		wp_enqueue_script( 'deensimc-main' );
 	}
 	public function deensimc_editor_styles() {
 		wp_register_style( 'deensimc-editor-css', DEENSIMC_ASSETS_URL . 'css/editor.css', null, self::VERSION, false );
 		wp_enqueue_style( 'deensimc-editor-css' );
 	}
+	
+	public function deensimc_upgrade_link( $actions ) {
 
+		$actions['rate_us'] = sprintf(
+			'<a href="https://wordpress.org/support/plugin/marquee-addons-for-elementor/reviews/#new-post" target="_blank">%1$s</a>',
+			__( 'Rate Us', 'marquee-addons-for-elementor' )
+		);
 
+		if ( !class_exists( '\Deensimcpro_Marquee\Marqueepro' ) ) {
+			$pro_url = 'https://marqueeaddons.com/';
+			$actions['upgrade_to_pro'] = sprintf(
+				'<a href="%1$s" target="_blank" style="color:#e2498a; font-weight: bold;">%2$s</a>',
+				esc_url( $pro_url ),
+				__( 'Get MarqueeAddons Pro', 'marquee-addons-for-elementor' )
+			);
+		}
+
+    	return $actions;
+	}
 	
 	function deensimc_register_widgets( $widgets_manager ) {
 
@@ -285,22 +381,31 @@ final class Marquee {
 
 		require_once(  __DIR__ . '/widgets/traits/testimonial-marquee/content-repeater.php' );
 		require_once(  __DIR__ . '/widgets/traits/testimonial-marquee/content-additional-options.php' );
+		require_once(  __DIR__ . '/widgets/traits/testimonial-marquee/content-text-unfold.php' );
 		require_once(  __DIR__ . '/widgets/traits/testimonial-marquee/style-contents-box.php' );
 		require_once(  __DIR__ . '/widgets/traits/testimonial-marquee/style-contents.php' );
 		require_once(  __DIR__ . '/widgets/traits/testimonial-marquee/style-image.php' );
 		require_once(  __DIR__ . '/widgets/traits/testimonial-marquee/style-name-title.php' );
 		require_once(  __DIR__ . '/widgets/traits/testimonial-marquee/style-review.php' );
+		require_once(  __DIR__ . '/widgets/traits/testimonial-marquee/style-edge-shadow.php' );
 
 		require_once(  __DIR__ . '/widgets/traits/image-marquee/content-image.php' );
 		require_once(  __DIR__ . '/widgets/traits/image-marquee/content-additional-options.php' );
 		require_once(  __DIR__ . '/widgets/traits/image-marquee/style-alignment-spacing.php' );
 		require_once(  __DIR__ . '/widgets/traits/image-marquee/style-height-width.php' );
 		require_once(  __DIR__ . '/widgets/traits/image-marquee/style-border-options.php' );
+		require_once(  __DIR__ . '/widgets/traits/image-marquee/style-caption.php' );
+		require_once(  __DIR__ . '/widgets/traits/image-marquee/style-edge-shadow.php' );
 
 		require_once(  __DIR__ . '/widgets/traits/text-marquee/content-text-repeater.php' );
 		require_once(  __DIR__ . '/widgets/traits/text-marquee/content-additional-options.php' );
 		require_once(  __DIR__ . '/widgets/traits/text-marquee/style-text-contents.php' );
+		require_once(  __DIR__ . '/widgets/traits/text-marquee/style-edge-shadow.php' );
 
+		require_once(  __DIR__ . '/widgets/traits/news-ticker/additional-options-control.php' );
+		require_once(  __DIR__ . '/widgets/traits/news-ticker/news-ticker-layout-control.php' );
+		require_once(  __DIR__ . '/widgets/traits/news-ticker/style-section-control.php' );
+		require_once(  __DIR__ . '/widgets/traits/news-ticker/news-ticker-query-control.php' );
 
 		require_once(  __DIR__ . '/widgets/class-deensimc-image-marquee.php' );
 		require_once(  __DIR__ . '/widgets/class-deensimc-stacked-slider.php' );
@@ -308,6 +413,7 @@ final class Marquee {
 		require_once(  __DIR__ . '/widgets/class-deensimc-text-marquee.php' );
 		require_once(  __DIR__ . '/widgets/class-deensimc-testimonial-marquee.php' );
 		require_once(  __DIR__ . '/widgets/class-deensimc-video-marquee.php' );
+		require_once(  __DIR__ . '/widgets/class-deensimc-news-ticker.php' );
 
 		$widgets_manager->register( new \Deensimc_Image_Marquee() );
 		$widgets_manager->register( new \Deensimc_Stacked_Slider() );
@@ -315,6 +421,8 @@ final class Marquee {
 		$widgets_manager->register( new \Deensimc_Text_Marquee() );
 		$widgets_manager->register( new \Deensimc_Testimonial_Marquee() );
 		$widgets_manager->register( new \Deensimc_Video_Marquee() );
+		$widgets_manager->register( new \Deensimc_News_Ticker() );
+
 	}
 
 	function deensimc_add_categories( $elements_manager ) {

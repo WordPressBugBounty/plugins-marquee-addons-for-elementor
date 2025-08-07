@@ -3,7 +3,7 @@ Contributors: debuggersstudio
 Tags: marquee, slider, image marquee, video marquee, text marquee
 Requires at least: 5.8
 Tested up to: 6.8
-Stable tag: 2.1.9
+Stable tag: 2.2.0
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -20,27 +20,31 @@ Different Marquee Addons:
  
 ### Image Marquee:
  
-lets you add smooth scrolling marquee effects for images, featuring lightbox, image links, lazy loading, adjustable animation speed, and customizable scrolling direction. It provides an easy and effective way to showcase your images loop on your website. [Demo](https://marqueeaddons.com/image-marquee/)
+lets you add smooth scrolling marquee effects for images, featuring lightbox, image links, lazy loading, adjustable animation speed, and customizable scrolling direction. It provides an easy and effective way to showcase your images loop on your website. [Demo](https://wp.dstudio.asia/marquee-addons/image-marquee/)
 
 ### Text marquee:
 
-allows you to display scrolling marquee texts with icons and repeat the content as needed. You can set the scrolling direction vertical or horizontally, giving you flexibility to match the layout and flow of your website's design. [Demo](https://marqueeaddons.com/text-marquee/)
+allows you to display scrolling marquee texts with icons and repeat the content as needed. You can set the scrolling direction vertical or horizontally, giving you flexibility to match the layout and flow of your website's design. [Demo](https://wp.dstudio.asia/marquee-addons/text-marquee/)
 
 ### Testimonial Marquee:
 
-Lets you smoothly scroll through client feedback, names, and ratings. It's a simple way to display testimonials in a continuous loop, helping you present customer reviews neatly on your website. [Demo](https://marqueeaddons.com/testimonial-marquee/)
+Lets you smoothly scroll through client feedback, names, and ratings. It's a simple way to display testimonials in a continuous loop, helping you present customer reviews neatly on your website. [Demo](https://wp.dstudio.asia/marquee-addons/testimonial-marquee/)
  
 ### Video Marquee:
  
-Lets you add repeated video items, supporting platforms like YouTube, Vimeo, Dailymotion, and self-hosted videos. You can also customize video settings, offering a smooth scrolling experience for video content on your site. [Demo](https://marqueeaddons.com/video-marquee/)
+Lets you add repeated video items, supporting platforms like YouTube, Vimeo, Dailymotion, and self-hosted videos. You can also customize video settings, offering a smooth scrolling experience for video content on your site. [Demo](https://wp.dstudio.asia/marquee-addons/video-marquee/)
+
+### News Ticker:
+
+With the News Ticker widget users can easily display the highlighted news, updates, or announcements in a smooth scrolling loop format. Customize the appearance, speed, and content to suit your website’s style. Perfect for showcasing real-time news, blog posts, discounts offers or important alerts on any page. [Demo](https://marqueeaddons.com/news-ticker/)
 
 ### Stacked Slider:
  
-Show several images in a stacked slider format, where users can shuffle through different layers of visuals. This is great for displaying product collections, and portfolios, in a neat and interactive manner. [Demo](https://marqueeaddons.com/stacked-slider/)
+Show several images in a stacked slider format, where users can shuffle through different layers of visuals. This is great for displaying product collections, and portfolios, in a neat and interactive manner. [Demo](https://wp.dstudio.asia/marquee-addons/stacked-slider/)
 
 ### Image Accordion:
  
-Create an engaging accordion-style effect with images, Where each image expands as the user hovers over it. Ideal for displaying portfolios, product features or any content that requires a unique, interactive display. [Demo](https://marqueeaddons.com/image-accordion/)
+Create an engaging accordion-style effect with images, Where each image expands as the user hovers over it. Ideal for displaying portfolios, product features or any content that requires a unique, interactive display. [Demo](https://wp.dstudio.asia/marquee-addons/image-accordion/)
  
 ### Key features:
  
@@ -74,7 +78,7 @@ Create an engaging accordion-style effect with images, Where each image expands 
  
 * Boostuser engagement by creating eye-catching marquees with dynamic content.
  
-* Savetime with ready-made marquee layouts that are easy to set up and fully customizable for your website’s needs
+* Savetime with ready-made marquee layouts that are easy to set up and fully customizable for your websiteâ€™s needs
 
 == Installation ==
 
@@ -92,6 +96,7 @@ Create an engaging accordion-style effect with images, Where each image expands 
 4. Video Marquee
 5. Stacked Slider
 6. Image Accordion
+7. News Ticker
 
 == Frequently Asked Questions ==
 
@@ -105,7 +110,7 @@ No, Marquee Addons works with the free version of Elementor. However, you may re
 
 = 3. How do I install Marquee Addons for Elementor? =
 
-You can install Marquee Addons by searching for the plugin in the WordPress dashboard under “Plugins > Add New”. Once found, click “Install” and then activate it. After activation, the widgets will appear in your Elementor editor.
+You can install Marquee Addons by searching for the plugin in the WordPress dashboard under â€œPlugins > Add Newâ€. Once found, click â€œInstallâ€ and then activate it. After activation, the widgets will appear in your Elementor editor.
 
 = 4. What can I use Marquee Addons for? =
 
@@ -117,7 +122,7 @@ Yes, Marquee Addons offers full control over the speed, direction (left, right, 
 
 = 6. Will using Marquee Addons slow down my website? =
 
-The plugin is optimized for performance, but as with any animation-heavy feature, it’s important to monitor your website’s speed, especially when adding multiple dynamic elements. Always test your site’s performance after making changes.
+The plugin is optimized for performance, but as with any animation-heavy feature, itâ€™s important to monitor your websiteâ€™s speed, especially when adding multiple dynamic elements. Always test your siteâ€™s performance after making changes.
 
 = 7. Are Marquee Addons responsive for mobile devices? =
 
@@ -133,9 +138,16 @@ The developers release regular updates to improve features, fix bugs, and ensure
 
 = 10. What should I do if my marquee effect is not working? =
 
-First, ensure that you’ve activated the plugin correctly. If the issue persists, try clearing your browser cache or updating your Elementor plugin. If the problem continues, you can reach out to the support team for assistance.
+First, ensure that youâ€™ve activated the plugin correctly. If the issue persists, try clearing your browser cache or updating your Elementor plugin. If the problem continues, you can reach out to the support team for assistance.
 
 == Changelog ==
+
+= 2.2.0
+- Feat News Ticker Widget
+- Refactor naming and control grouping for image, text, testimonial and video marquee
+- Refactor edge shadow controls and behavior
+- Refactor widget icons
+- Feat promotional banner, rate us, get pro link
 
 = 2.1.9
 - Removed demo import functionality
