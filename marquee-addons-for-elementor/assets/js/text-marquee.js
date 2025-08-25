@@ -3,7 +3,7 @@
 
   $(window).on("elementor/frontend/init", () => {
     elementorFrontend.hooks.addAction(
-      "frontend/element_ready/deensimc_button_marquee.default",
+      "frontend/element_ready/deensimc-smooth-text.default",
       handleAnimationDuration
     );
   });
