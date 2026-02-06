@@ -10,7 +10,7 @@ use \Elementor\Group_Control_Css_Filter;
 use \Elementor\Group_Control_Box_Shadow;
 use \Elementor\Group_Control_Border;
 
-trait Videomarquee_Style_Contents
+trait Deensimc_Videomarquee_Style_Contents
 {
 	protected function style_contents()
 	{
@@ -96,7 +96,15 @@ trait Videomarquee_Style_Contents
 		$this->add_group_control(
 			Group_Control_Css_Filter::get_type(),
 			[
-				'name' => 'custom_css_filters',
+				'name' => 'deensimc_custom_css_filters',
+				'selector' => '{{WRAPPER}} .deensimc-video-marquee .deensimc-video-item',
+			]
+		);
+
+		$this->add_group_control(
+			Group_Control_Box_Shadow::get_type(),
+			[
+				'name' => 'deensimc_box_shadow',
 				'selector' => '{{WRAPPER}} .deensimc-video-marquee .deensimc-video-item',
 			]
 		);

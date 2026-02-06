@@ -14,9 +14,12 @@ use \Elementor\Icons_Manager;
  */
 class Deensimc_Image_Accordion extends Widget_Base
 {
-
-	use ImageAccordion_Contents;
-	use ImageAccordion_Styles;
+	use Deensimc_Utils;
+	use Deensimc_ImageAccordion_Contents;
+	use Deensimc_ImageAccordion_Image_Style_Controls;
+	use Deensimc_ImageAccordion_Title_Style_Controls;
+	use Deensimc_ImageAccordion_Description_Style_Controls;
+	use Deensimc_ImageAccordion_Cta_Style_Controls;
 
 	public function get_name()
 	{
@@ -53,9 +56,9 @@ class Deensimc_Image_Accordion extends Widget_Base
 		return ['deensimc-image-accordion-script'];
 	}
 
-	function deensimc_allowed_icon_html() 
+	function deensimc_allowed_icon_html()
 	{
-		$allowed = wp_kses_allowed_html( 'post' );
+		$allowed = wp_kses_allowed_html('post');
 
 		$allowed['svg'] = [
 			'class'        => true,
@@ -92,7 +95,7 @@ class Deensimc_Image_Accordion extends Widget_Base
 		];
 
 		$allowed['title'] = [];
-		
+
 		$allowed['i'] = [
 			'class'        => true,
 			'aria-hidden'  => true,
@@ -103,7 +106,7 @@ class Deensimc_Image_Accordion extends Widget_Base
 			'aria-hidden'  => true,
 		];
 
-    	return $allowed;
+		return $allowed;
 	}
 
 	public function get_custom_help_url(): string
@@ -114,7 +117,10 @@ class Deensimc_Image_Accordion extends Widget_Base
 	protected function register_controls()
 	{
 		$this->content_controls();
-		$this->style_controls();
+		$this->image_style_controls();
+		$this->title_style_controls();
+		$this->description_style_controls();
+		$this->cta_style_controls();
 	}
 
 	/**
@@ -124,6 +130,8 @@ class Deensimc_Image_Accordion extends Widget_Base
 	protected function render()
 	{
 		$settings = $this->get_settings_for_display();
+		$heading_tag = self::validate_html_tag($settings['deensimc_image_accordion_heading_tag']);
+
 		$devices = [];
 		if (isset($settings['deensimc_images_title_rotating'])) {
 			$devices[] = esc_attr($settings['deensimc_images_title_rotating']);
@@ -157,7 +165,9 @@ class Deensimc_Image_Accordion extends Widget_Base
 								<?php echo esc_html($images['deensimc_bg_image_title']) ?>
 							</p>
 							<div class="deensimc-panel-content">
-								<h2> <?php echo esc_html($images['deensimc_bg_image_title']) ?> </h2>
+								<<?php echo esc_attr($heading_tag); ?> class="deensimc-acc-title">
+									<?php echo esc_html($images['deensimc_bg_image_title']); ?>
+								</<?php echo esc_attr($heading_tag); ?>>
 								<div class="deensimc-acc-description">
 									<?php echo wp_kses_post($images['deensimc_bg_image_description'] ?? ''); ?>
 								</div>
@@ -168,12 +178,12 @@ class Deensimc_Image_Accordion extends Widget_Base
 									$target       = !empty($images['deensimc_image_acc_cta_url']['is_external']) ? ' target="_blank"' : '';
 									$nofollow     = !empty($images['deensimc_image_acc_cta_url']['nofollow']) ? ' rel="nofollow"' : '';
 									?>
-									<a href="<?php echo esc_url( $cta_url ); ?>" class="deensimc-acc-cta" <?php echo esc_attr( $target ) . esc_attr( $nofollow ); ?>>
-										<span class="deensimc-acc-cta-text"><?php echo esc_html( $cta_text ); ?></span>
+									<a href="<?php echo esc_url($cta_url); ?>" class="deensimc-acc-cta" <?php echo esc_attr($target) . esc_attr($nofollow); ?>>
+										<span class="deensimc-acc-cta-text"><?php echo esc_html($cta_text); ?></span>
 									</a>
 								<?php endif; ?>
 							</div>
-							<img src="<?php echo esc_url( $images['deensimc_bg_image']['url'] ) ?>" alt="background image" class="deensimc-acc-bg-img">
+							<img src="<?php echo esc_url($images['deensimc_bg_image']['url']) ?>" alt="background image" class="deensimc-acc-bg-img">
 						</div>
 				<?php
 					}

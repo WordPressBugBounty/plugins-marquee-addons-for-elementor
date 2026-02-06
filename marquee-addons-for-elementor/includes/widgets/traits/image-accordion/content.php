@@ -9,7 +9,7 @@ use \Elementor\Controls_Manager;
 use \Elementor\Repeater;
 use \Elementor\Utils;
 
-trait ImageAccordion_Contents
+trait Deensimc_ImageAccordion_Contents
 {
     protected function content_controls()
     {
@@ -57,7 +57,7 @@ trait ImageAccordion_Contents
         $image_repeater->add_control(
             'deensimc_image_acc_cta_switch',
             [
-                'label'        => esc_html__('CTA', 'marquee-addons-for-elementor'),
+                'label'        => esc_html__('Button', 'marquee-addons-for-elementor'),
                 'type'         => Controls_Manager::SWITCHER,
                 'label_on'     => esc_html__('Show', 'marquee-addons-for-elementor'),
                 'label_off'    => esc_html__('Hide', 'marquee-addons-for-elementor'),
@@ -70,7 +70,7 @@ trait ImageAccordion_Contents
         $image_repeater->add_control(
             'deensimc_image_acc_cta_text',
             [
-                'label'     => esc_html__('CTA Text', 'marquee-addons-for-elementor'),
+                'label'     => esc_html__('Button Text', 'marquee-addons-for-elementor'),
                 'type'      => Controls_Manager::TEXT,
                 'default'   => esc_html__('Learn More', 'marquee-addons-for-elementor'),
                 'condition' => [
@@ -82,7 +82,7 @@ trait ImageAccordion_Contents
         $image_repeater->add_control(
             'deensimc_image_acc_cta_url',
             [
-                'label'       => esc_html__('CTA URL', 'marquee-addons-for-elementor'),
+                'label'       => esc_html__('Button URL', 'marquee-addons-for-elementor'),
                 'type'        => Controls_Manager::URL,
                 'placeholder' => esc_html__('https://your-link.com', 'marquee-addons-for-elementor'),
                 'condition'   => [
@@ -137,11 +137,35 @@ trait ImageAccordion_Contents
                 'selectors' => [],
             ]
         );
+        $this->add_control(
+            'deensimc_image_accordion_heading_tag',
+            [
+                'label' => esc_html__('Heading Tag', 'marquee-addons-for-elementor'),
+                'type' => Controls_Manager::SELECT,
+                'options' => [
+                    'h2' => 'H2',
+                    'h3' => 'H3',
+                    'h4' => 'H4',
+                    'h5' => 'H5',
+                    'h6' => 'H6',
+                ],
+                'default' => 'h3',
+            ]
+        );
+
+        $this->add_control(
+            'deensimc_title_alignment_heading',
+            [
+                'label' => esc_html__('Title Alignment', 'marquee-addons-for-elementor'),
+                'type' => Controls_Manager::HEADING,
+                'separator' => 'before',
+            ]
+        );
 
         $this->add_responsive_control(
             'deensimc_bg_image_title_horizontal_align',
             [
-                'label' => esc_html__('Title Horizontal Alignment', 'marquee-addons-for-elementor'),
+                'label' => esc_html__('Horizontal', 'marquee-addons-for-elementor'),
                 'type' =>  Controls_Manager::CHOOSE,
                 'options' => [
                     'start' => [
@@ -168,7 +192,7 @@ trait ImageAccordion_Contents
         $this->add_responsive_control(
             'deensimc_bg_image_title_vertical_align',
             [
-                'label' => esc_html__('Title Vertical Alignment', 'marquee-addons-for-elementor'),
+                'label' => esc_html__('Vertical', 'marquee-addons-for-elementor'),
                 'type' =>  Controls_Manager::CHOOSE,
                 'options' => [
                     'start' => [

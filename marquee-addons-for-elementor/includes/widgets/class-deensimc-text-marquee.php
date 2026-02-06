@@ -15,11 +15,12 @@ use \Elementor\Icons_Manager;
 
 class Deensimc_Text_Marquee extends Widget_Base
 {
+	use Deensimc_Utils;
 	use Deensimc_Promotional_Banner;
-
-	use Textmarquee_Content_Text_Repeater;
+	use Deensimc_Textmarquee_Content_Text_Repeater;
+	use Deensimc_Textmarquee_Layout_Controls;
 	use Deensimc_Marquee_Controls;
-	use Textmarquee_Style_Text_Contents;
+	use Deensimc_Textmarquee_Style_Text_Contents;
 	use Deensimc_Style_Edge_Shadow;
 
 	public function get_style_depends()
@@ -67,8 +68,8 @@ class Deensimc_Text_Marquee extends Widget_Base
 
 		$this->content_text_repeater();
 		$this->register_marquee_control('deensimc_text_marquee_options');
-
 		$this->style_text_contents();
+		$this->register_layout_controls();
 		$this->register_style_edge_shadow('deensimc_text_marquee_edge_shadow');
 	}
 
@@ -77,32 +78,49 @@ class Deensimc_Text_Marquee extends Widget_Base
 	 *
 	 * @param array $settings Widget settings containing the text and icon data.
 	 */
-	protected function render_marquee_texts($texts, $is_vertical)
+	protected function render_marquee_texts($texts, $is_vertical, $tag, $track_id)
 	{
 		$required = $is_vertical ? 12 : 6;
 		$count    = count($texts);
-		if ( $count > 0 && $count < $required ) {
+		if ($count > 0 && $count < $required) {
 			$original = $texts;
 			// Duplicate full batches until we have at least $required
-			while ( count( $texts ) < $required ) {
-				foreach ( $original as $text ) {
+			while (count($texts) < $required) {
+				foreach ($original as $text) {
 					$dup = $text;
 					$dup['_is_dup'] = true;
 					$texts[] = $dup;
 				}
 			}
 		}
-		foreach ($texts as $text) {
-			$is_dup = !empty($text['_is_dup']);
 
-		?>
-			<div class="deensimc-text-wrapper" aria-hidden="<?php echo esc_attr ( $is_dup ? 'true': 'false' ) ?>" >
+		foreach ($texts as $index => $text) {
+
+			$is_dup = ! empty($text['_is_dup']);
+			$link   = $text['deensimc_repeater_text_link'] ?? [];
+
+			// Unique key per repeater item
+			$link_key = 'deensimc_text_link_' . $track_id . '_' . $index;
+
+			if (! empty($link['url'])) {
+				$this->add_link_attributes($link_key, $link);
+			}
+?>
+			<div class="deensimc-text-wrapper" aria-hidden="<?php echo esc_attr($is_dup ? 'true' : 'false') ?>">
 				<?php Icons_Manager::render_icon($text['deensimc_repeater_text_icon'], ['aria-hidden' => 'true']); ?>
-				<p class="deensimc-scroll-text">
-					<?php
-					echo esc_html($text['deensimc_repeater_text']);
-					?>
-				</p>
+				<?php if (!empty($link['url'])) : ?>
+					<<?php echo esc_html($tag); ?> class="deensimc-scroll-text">
+						<a
+							class="deensimc-scroll-text"
+							<?php $this->print_render_attribute_string($link_key); ?>>
+							<?php echo esc_html($text['deensimc_repeater_text']); ?>
+						</a>
+					</<?php echo esc_html($tag); ?>>
+				<?php else : ?>
+					<<?php echo esc_html($tag); ?> class="deensimc-scroll-text">
+						<?php echo esc_html($text['deensimc_repeater_text']); ?>
+					</<?php echo esc_html($tag); ?>>
+				<?php endif; ?>
 			</div>
 		<?php
 		}
@@ -116,6 +134,7 @@ class Deensimc_Text_Marquee extends Widget_Base
 	{
 		$settings = $this->get_settings_for_display();
 		$texts = $settings['deensimc_repeater_text_main'];
+		$tag = self::validate_html_tag($settings['deensimc_text_marquee_tag']);
 
 		$is_vertical = $settings['deensimc_marquee_vertical_orientation'] === 'yes';
 		$is_reverse = $settings['deensimc_marquee_reverse_direction'] === 'yes';
@@ -136,15 +155,32 @@ class Deensimc_Text_Marquee extends Widget_Base
 		if ($is_show_edge_shadow) {
 			$conditional_class[] = 'deensimc-marquee-edge-shadow';
 		}
+		// icon rotation 
+		if (isset($settings['deensimc_icon_animation']) && $settings['deensimc_icon_animation'] === 'yes') {
+			$conditional_class[] = 'deensimc-icon-rotate';
+
+			if (isset($settings['deensimc_icon_rotation_direction']) && $settings['deensimc_icon_rotation_direction'] !== 'clockwise') {
+				$conditional_class[] = 'deensimc-icon-rotate-ccw';
+			}
+
+			$speed_val = $settings['deensimc_icon_rotation_speed'];
+			$duration  = $speed_val ? 20 / $speed_val : 0;
+			$speed = '--icon-speed:' . round($duration, 2) . 's;';
+		}
 
 		?>
-		<div class="deensimc-marquee-main-container deensimc-text-marquee <?php echo esc_attr(implode(' ', $conditional_class)) ?>" data-marquee-speed="<?php echo esc_attr($marquee_speed) ?>">
+		<div class="deensimc-marquee-main-container deensimc-text-marquee
+		<?php
+		echo esc_attr(implode(' ', $conditional_class));
+		?>"
+			data-marquee-speed="<?php echo esc_attr($marquee_speed) ?>"
+			<?php echo isset($speed) && $speed ? 'style="' . esc_attr($speed) . '"' : ''; ?>>
 			<div class="deensimc-marquee-track-wrapper">
 				<div class="deensimc-marquee-track">
-					<?php $this->render_marquee_texts($texts, $is_vertical) ?>
+					<?php $this->render_marquee_texts($texts, $is_vertical, $tag, 'track-1') ?>
 				</div>
 				<div aria-hidden="true" class="deensimc-marquee-track">
-					<?php $this->render_marquee_texts($texts, $is_vertical) ?>
+					<?php $this->render_marquee_texts($texts, $is_vertical, $tag, 'track-2') ?>
 				</div>
 			</div>
 		</div>

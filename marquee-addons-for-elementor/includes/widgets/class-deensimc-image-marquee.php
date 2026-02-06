@@ -33,7 +33,7 @@ class Deensimc_Image_Marquee extends Widget_Base
 
 	public function get_name()
 	{
-		return 'deensimc-smooth-marquee'; //Image Marquee
+		return 'deensimc-smooth-marquee';
 	}
 
 	public function get_title()
@@ -96,11 +96,11 @@ class Deensimc_Image_Marquee extends Widget_Base
 		$required = 8;
 		$count    = count($images);
 
-		if ( $count > 0 && $count < $required ) {
+		if ($count > 0 && $count < $required) {
 			$original = $images;
 			// Duplicate full batches until we have at least $required
-			while ( count( $images ) < $required ) {
-				foreach ( $original as $img ) {
+			while (count($images) < $required) {
+				foreach ($original as $img) {
 					$dup = $img;
 					$dup['_is_dup'] = true;
 					$images[] = $dup;
@@ -109,7 +109,10 @@ class Deensimc_Image_Marquee extends Widget_Base
 		}
 
 		foreach ($images as $image) {
-			$is_dup = !empty($image['_is_dup']); // check if it's a duplicate
+			if (empty($image['url']) || !preg_match('/\.(jpe?g|png|gif|webp|avif|bmp)$/i', $image['url'])) {
+				continue;
+			}
+			$is_dup = !empty($image['_is_dup']);
 			$alt = !empty($image['alt']) ? $image['alt'] : 'Image gallery marquee';
 
 			if ($link_type !== 'none') {
@@ -122,7 +125,7 @@ class Deensimc_Image_Marquee extends Widget_Base
 			}
 
 			echo '<figure class="deensimc-img-wrapper"' . ($is_dup ? ' aria-hidden="true"' : '') . '>';
-			echo '<div class="deensimc-img"><img src="' . esc_url($image['url']) . '" ' . esc_html($lazy_load_attr) . ' alt="' . esc_attr($alt) . '"></div>';
+			echo '<div class="deensimc-img"><img class="deensimc-marquee-image" src="' . esc_url($image['url']) . '" ' . esc_html($lazy_load_attr) . ' alt="' . esc_attr($alt) . '"></div>';
 			echo '<figcaption class="deensimc-image-marquee-caption">'
 				. esc_html($this->deensimc_get_caption($image, $settings['deensimc_caption_type']))
 				. '</figcaption>';

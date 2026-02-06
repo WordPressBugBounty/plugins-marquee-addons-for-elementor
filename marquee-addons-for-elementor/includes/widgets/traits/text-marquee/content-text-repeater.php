@@ -8,7 +8,7 @@ if (! defined('ABSPATH')) {
 use \Elementor\Controls_Manager;
 use \Elementor\Repeater;
 
-trait Textmarquee_Content_Text_Repeater
+trait Deensimc_Textmarquee_Content_Text_Repeater
 {
 	use Deensimc_Marquee_Gap_Controls;
 
@@ -42,9 +42,25 @@ trait Textmarquee_Content_Text_Repeater
 			'deensimc_repeater_text',
 			[
 				'label' => esc_html__('Text', 'marquee-addons-for-elementor'),
-				'type' =>  Controls_Manager::TEXT,
+				'type' =>  Controls_Manager::TEXTAREA,
 				'default' => esc_html__('Lorem Ipsum is simply dummy text of the printing and typesetting industry', 'marquee-addons-for-elementor'),
 				'placeholder' => esc_html__('Type your title here', 'marquee-addons-for-elementor'),
+			]
+		);
+
+		$deensimc_text_repeater->add_control(
+			'deensimc_repeater_text_link',
+			[
+				'label' => esc_html__('Link', 'marquee-addons-for-elementor'),
+				'type' => Controls_Manager::URL,
+				'placeholder' => esc_html__('https://your-link.com', 'marquee-addons-for-elementor'),
+				'options' => ['url', 'is_external', 'nofollow'],
+				'default'       => [
+					'url'         => '',
+					'is_external' => false,
+					'nofollow'    => false,
+				],
+				'label_block' => true,
 			]
 		);
 
@@ -63,6 +79,36 @@ trait Textmarquee_Content_Text_Repeater
 					],
 				],
 				'title_field' => '{{{ deensimc_repeater_text }}}',
+			]
+		);
+
+
+		$this->add_responsive_control(
+			'deensimc_text_wrap',
+			[
+				'label' => esc_html__('Text wrap', 'marquee-addons-for-elementor'),
+				'type' => Controls_Manager::SWITCHER,
+				'label_on' => esc_html__('On', 'marquee-addons-for-elementor'),
+				'label_off' => esc_html__('Off', 'marquee-addons-for-elementor'),
+				'return_value' => 'yes',
+				'default' => 'yes',
+				'desktop_default' => 'yes',
+				'laptop_default' => 'yes',
+				'tablet_default' => 'yes',
+				'tablet_extra_default' => 'yes',
+				'mobile_default' => 'yes',
+				'mobile_extra_default' => 'yes',
+				'widescreen_default' => 'yes',
+				'selectors_dictionary' => [
+					'yes' => 'white-space: normal;',
+					''    => 'white-space: nowrap;',
+				],
+				'selectors' => [
+					'{{WRAPPER}} .deensimc-scroll-text' => '{{VALUE}}',
+				],
+				'condition' => [
+					'deensimc_marquee_vertical_orientation' => 'yes',
+				],
 			]
 		);
 
@@ -88,13 +134,13 @@ trait Textmarquee_Content_Text_Repeater
 				'default' => 'center',
 				'toggle' => true,
 				'selectors_dictionary' => [
-					'left' => 'margin-left: 0; margin-right: auto; text-align: left;',
-					'center' => 'margin-left: auto; margin-right: auto; text-align: center;',
-					'right' => 'margin-left: auto; margin-right: 0; text-align: right;',
+					'left' => 'align-items: start;',
+					'center' => 'align-items: center;',
+					'right' => 'align-items: end;',
 				],
 
 				'selectors' => [
-					'{{WRAPPER}} .deensimc-text-marquee .deensimc-marquee-track-wrapper' => '{{VALUE}};',
+					'{{WRAPPER}} .deensimc-marquee-vertical .deensimc-marquee-track' => '{{VALUE}};',
 				],
 				'condition' => [
 					'deensimc_marquee_vertical_orientation' => 'yes'
@@ -103,6 +149,22 @@ trait Textmarquee_Content_Text_Repeater
 		);
 
 		$this->register_gap_control();
+
+		$this->add_control('deensimc_text_marquee_tag', [
+			'label' => __('HTML Tag', 'marquee-addons-for-elementor'),
+			'type' => Controls_Manager::SELECT,
+			'default' => 'p',
+			'options' => [
+				'h2' => 'H2',
+				'h3' => 'H3',
+				'h4' => 'H4',
+				'h5' => 'H5',
+				'h6' => 'H6',
+				'div' => 'div',
+				'span' => 'span',
+				'p' => 'p',
+			],
+		]);
 
 		$this->end_controls_section();
 	}

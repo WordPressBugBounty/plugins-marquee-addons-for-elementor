@@ -11,7 +11,7 @@ use \Elementor\Core\Kits\Documents\Tabs\Global_Colors;
 use \Elementor\Core\Kits\Documents\Tabs\Global_Typography;
 use Elementor\Group_Control_Background;
 
-trait NewsTickerStyleControl
+trait Deensimc_NewsTickerStyleControl
 {
 
 	protected function style_section_control()
@@ -212,6 +212,22 @@ trait NewsTickerStyleControl
 				],
 			]
 		);
+
+		$this->add_control(
+			'deensimc_title_hover_color',
+			[
+				'label' => __('Hover Color', 'marquee-addons-for-elementor'),
+				'type' => Controls_Manager::COLOR,
+				'global' => [
+					'default' => Global_Colors::COLOR_PRIMARY,
+				],
+				'default' => '#1E293B',
+				'selectors' => [
+					'{{WRAPPER}} .deensimc-title-link:hover' => 'color: {{VALUE}};',
+				],
+			]
+		);
+
 		$this->add_group_control(
 			Group_Control_Typography::get_type(),
 			[

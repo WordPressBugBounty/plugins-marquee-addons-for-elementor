@@ -8,7 +8,7 @@ if (! defined('ABSPATH')) {
 use \Elementor\Controls_Manager;
 use \Elementor\Group_Control_Typography;
 
-trait Textmarquee_Style_Text_Contents
+trait Deensimc_Textmarquee_Style_Text_Contents
 {
 	protected function style_text_contents()
 	{
@@ -37,44 +37,49 @@ trait Textmarquee_Style_Text_Contents
 			]
 		);
 
+		$this->start_controls_tabs('deensimc_scroll_text_color_tabs');
+
+		$this->start_controls_tab(
+			'deensimc_scroll_text_color_normal',
+			[
+				'label' => esc_html__('Normal', 'marquee-addons-for-elementor'),
+			]
+		);
+
 		$this->add_control(
 			'deensimc_scroll_text_color',
 			[
 				'label' => esc_html__('Color', 'marquee-addons-for-elementor'),
-				'type' =>  Controls_Manager::COLOR,
+				'type'  => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} .deensimc-scroll-text' => 'color: {{VALUE}}',
+					'{{WRAPPER}} .deensimc-scroll-text' => 'color: {{VALUE}};',
 				],
 			]
 		);
 
+		$this->end_controls_tab();
 
-		$this->add_responsive_control(
-			'deensimc_widget_height',
+		$this->start_controls_tab(
+			'deensimc_scroll_text_color_hover',
 			[
-				'label' => esc_html__('Section Height', 'marquee-addons-for-elementor'),
-				'type' =>  Controls_Manager::SLIDER,
-				'size_units' => ['vh'],
-				'range' => [
-					'vh' => [
-						'min' => 1,
-						'max' => 100,
-						'step' => 1,
-					],
-				],
+				'label' => esc_html__('Hover', 'marquee-addons-for-elementor'),
+			]
+		);
 
-				'default' => [
-					'unit' => 'vh',
-					'size' => 60,
-				],
-				'condition' => [
-					'deensimc_marquee_vertical_orientation' => 'yes',
-				],
+		$this->add_control(
+			'deensimc_scroll_text_hover_color',
+			[
+				'label' => esc_html__('Color', 'marquee-addons-for-elementor'),
+				'type'  => Controls_Manager::COLOR,
 				'selectors' => [
-					'{{WRAPPER}} .deensimc-marquee-vertical.deensimc-marquee-main-container' => 'height: {{SIZE}}vh;',
+					'{{WRAPPER}} .deensimc-scroll-text:hover' => 'color: {{VALUE}};',
 				],
 			]
 		);
+
+		$this->end_controls_tab();
+
+		$this->end_controls_tabs();
 
 
 		$this->add_control(
@@ -98,6 +103,7 @@ trait Textmarquee_Style_Text_Contents
 			]
 		);
 
+
 		$this->add_responsive_control(
 			'deensimc_icon_size',
 			[
@@ -113,7 +119,7 @@ trait Textmarquee_Style_Text_Contents
 				],
 				'default' => [
 					'unit' => 'px',
-					'size' => 16,
+					'size' => 24,
 				],
 				'selectors' => [
 					'{{WRAPPER}} .deensimc-text-wrapper svg' => 'height: {{SIZE}}{{UNIT}}; width: {{SIZE}}{{UNIT}};',
@@ -141,7 +147,7 @@ trait Textmarquee_Style_Text_Contents
 				],
 				'default' => [
 					'unit' => 'px',
-					'size' => 20,
+					'size' => 8,
 				],
 				'selectors' => [
 					'{{WRAPPER}} .deensimc-text-wrapper' => 'gap: {{SIZE}}{{UNIT}};',
@@ -179,41 +185,47 @@ trait Textmarquee_Style_Text_Contents
 				],
 			]
 		);
-
-		$this->add_responsive_control(
-			'deensimc_icon_adjust_vertical_position',
+		// animation 
+		$this->add_control(
+			'deensimc_icon_animation',
 			[
-				'label' => esc_html__('Adjust Vertical Position', 'marquee-addons-for-elementor'),
-				'type' => Controls_Manager::SLIDER,
-				'size_units' => ['px', 'em', 'rem'],
-				'range' => [
-					'px' => [
-						'min' => -16,
-						'max' => 16,
-						'step' => 1,
-					],
-					'em' => [
-						'min' => -1,
-						'max' => 1,
-						'step' => 0.1,
-					],
-					'rem' => [
-						'min' => -1,
-						'max' => 1,
-						'step' => 0.1,
-					],
-				],
-				'default' => [
-					'unit' => 'px',
-					'size' => 0,
-				],
-				'selectors' => [
-					'{{WRAPPER}} .deensimc-text-wrapper svg' => 'margin-block: {{SIZE}}{{UNIT}};',
-					'{{WRAPPER}} .deensimc-text-wrapper i' => 'margin-block: {{SIZE}}{{UNIT}};',
-				],
+				'label' => esc_html__('Auto Rotation', 'marquee-addons-for-elementor'),
+				'type' => Controls_Manager::SWITCHER,
+				'label_on' => esc_html__('Yes', 'marquee-addons-for-elementor'),
+				'label_off' => esc_html__('No', 'marquee-addons-for-elementor'),
+				'return_value' => 'yes',
+				'default' => '',
+			]
+		);
+
+		$this->add_control(
+			'deensimc_icon_rotation_speed',
+			[
+				'label' => esc_html__('Speed', 'marquee-addons-for-elementor'),
+				'type' => Controls_Manager::NUMBER,
+				'default' => 10,
+				'min' => 0,
+				'max' => 100,
+				'step' => 1,
 				'condition' => [
-					'deensimc_marquee_vertical_orientation' => 'yes',
+					'deensimc_icon_animation' => 'yes'
+				]
+			]
+		);
+
+		$this->add_control(
+			'deensimc_icon_rotation_direction',
+			[
+				'label' => esc_html__('Direction', 'marquee-addons-for-elementor'),
+				'type' => Controls_Manager::SELECT,
+				'options' => [
+					'anticlockwise' => esc_html__('Anti-Clockwise', 'marquee-addons-for-elementor'),
+					'clockwise' => esc_html__('Clockwise', 'marquee-addons-for-elementor'),
 				],
+				'default' => 'anticlockwise',
+				'condition' => [
+					'deensimc_icon_animation' => 'yes'
+				]
 			]
 		);
 		$this->end_controls_section();
