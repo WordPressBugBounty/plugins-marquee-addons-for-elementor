@@ -18,7 +18,6 @@ class Deensimc_Text_Marquee extends Widget_Base
 	use Deensimc_Utils;
 	use Deensimc_Promotional_Banner;
 	use Deensimc_Textmarquee_Content_Text_Repeater;
-	use Deensimc_Textmarquee_Layout_Controls;
 	use Deensimc_Marquee_Controls;
 	use Deensimc_Textmarquee_Style_Text_Contents;
 	use Deensimc_Style_Edge_Shadow;
@@ -68,8 +67,8 @@ class Deensimc_Text_Marquee extends Widget_Base
 
 		$this->content_text_repeater();
 		$this->register_marquee_control('deensimc_text_marquee_options');
+
 		$this->style_text_contents();
-		$this->register_layout_controls();
 		$this->register_style_edge_shadow('deensimc_text_marquee_edge_shadow');
 	}
 
@@ -80,11 +79,19 @@ class Deensimc_Text_Marquee extends Widget_Base
 	 */
 	protected function render_marquee_texts($texts, $is_vertical, $tag, $track_id)
 	{
-		$allowed_tags = [
-			'strong'  => [],
-			'em'  => [],
-			'br' => [],
-		];
+		$required = $is_vertical ? 12 : 6;
+		$count    = count($texts);
+		if ($count > 0 && $count < $required) {
+			$original = $texts;
+			// Duplicate full batches until we have at least $required
+			while (count($texts) < $required) {
+				foreach ($original as $text) {
+					$dup = $text;
+					$dup['_is_dup'] = true;
+					$texts[] = $dup;
+				}
+			}
+		}
 
 		foreach ($texts as $index => $text) {
 
@@ -105,12 +112,12 @@ class Deensimc_Text_Marquee extends Widget_Base
 						<a
 							class="deensimc-scroll-text"
 							<?php $this->print_render_attribute_string($link_key); ?>>
-							<?php echo wp_kses($text['deensimc_repeater_text'] ?? '', $allowed_tags); ?>
+							<?php echo esc_html($text['deensimc_repeater_text']); ?>
 						</a>
 					</<?php echo esc_html($tag); ?>>
 				<?php else : ?>
 					<<?php echo esc_html($tag); ?> class="deensimc-scroll-text">
-						<?php echo wp_kses($text['deensimc_repeater_text'] ?? '', $allowed_tags); ?>
+						<?php echo esc_html($text['deensimc_repeater_text']); ?>
 					</<?php echo esc_html($tag); ?>>
 				<?php endif; ?>
 			</div>
@@ -126,7 +133,8 @@ class Deensimc_Text_Marquee extends Widget_Base
 	{
 		$settings = $this->get_settings_for_display();
 		$texts = $settings['deensimc_repeater_text_main'];
-		$tag = self::validate_html_tag($settings['deensimc_text_marquee_tag']);
+		$tag = self::validate_html_tag( $settings['deensimc_text_marquee_tag'] );
+
 		$is_vertical = $settings['deensimc_marquee_vertical_orientation'] === 'yes';
 		$is_reverse = $settings['deensimc_marquee_reverse_direction'] === 'yes';
 		$is_pause_on_hover = $settings['deensimc_pause_on_hover'] === 'yes';
@@ -165,12 +173,10 @@ class Deensimc_Text_Marquee extends Widget_Base
 		echo esc_attr(implode(' ', $conditional_class));
 		?>"
 			data-marquee-speed="<?php echo esc_attr($marquee_speed) ?>"
-			data-track-fill="yes"
-			data-track-item-selector=".deensimc-text-wrapper"
 			<?php echo isset($speed) && $speed ? 'style="' . esc_attr($speed) . '"' : ''; ?>>
 			<div class="deensimc-marquee-track-wrapper">
 				<div class="deensimc-marquee-track">
-					<?php $this->render_marquee_texts($texts, $is_vertical, $tag, 'track-1') ?>
+					<?php $this->render_marquee_texts($texts, $is_vertical, $tag,'track-1') ?>
 				</div>
 				<div aria-hidden="true" class="deensimc-marquee-track">
 					<?php $this->render_marquee_texts($texts, $is_vertical, $tag, 'track-2') ?>

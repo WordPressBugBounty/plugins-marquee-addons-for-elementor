@@ -42,10 +42,9 @@ trait Deensimc_Textmarquee_Content_Text_Repeater
 			'deensimc_repeater_text',
 			[
 				'label' => esc_html__('Text', 'marquee-addons-for-elementor'),
-				'type' =>  Controls_Manager::TEXTAREA,
+				'type' =>  Controls_Manager::TEXT,
 				'default' => esc_html__('Lorem Ipsum is simply dummy text of the printing and typesetting industry', 'marquee-addons-for-elementor'),
 				'placeholder' => esc_html__('Type your title here', 'marquee-addons-for-elementor'),
-				'description' => esc_html__('Allowed HTML tags: <strong>, <em>, <br>', 'marquee-addons-for-elementor'),
 			]
 		);
 
@@ -83,36 +82,6 @@ trait Deensimc_Textmarquee_Content_Text_Repeater
 			]
 		);
 
-
-		$this->add_responsive_control(
-			'deensimc_text_wrap',
-			[
-				'label' => esc_html__('Text wrap', 'marquee-addons-for-elementor'),
-				'type' => Controls_Manager::SWITCHER,
-				'label_on' => esc_html__('On', 'marquee-addons-for-elementor'),
-				'label_off' => esc_html__('Off', 'marquee-addons-for-elementor'),
-				'return_value' => 'yes',
-				'default' => 'yes',
-				'desktop_default' => 'yes',
-				'laptop_default' => 'yes',
-				'tablet_default' => 'yes',
-				'tablet_extra_default' => 'yes',
-				'mobile_default' => 'yes',
-				'mobile_extra_default' => 'yes',
-				'widescreen_default' => 'yes',
-				'selectors_dictionary' => [
-					'yes' => 'white-space: normal;',
-					''    => 'white-space: nowrap;',
-				],
-				'selectors' => [
-					'{{WRAPPER}} .deensimc-scroll-text' => '{{VALUE}}',
-				],
-				'condition' => [
-					'deensimc_marquee_vertical_orientation' => 'yes',
-				],
-			]
-		);
-
 		$this->add_responsive_control(
 			'deensimc_text_marquee_alignment',
 			[
@@ -135,13 +104,13 @@ trait Deensimc_Textmarquee_Content_Text_Repeater
 				'default' => 'center',
 				'toggle' => true,
 				'selectors_dictionary' => [
-					'left' => 'align-items: start;',
-					'center' => 'align-items: center;',
-					'right' => 'align-items: end;',
+					'left' => 'margin-left: 0; margin-right: auto; text-align: left;',
+					'center' => 'margin-left: auto; margin-right: auto; text-align: center;',
+					'right' => 'margin-left: auto; margin-right: 0; text-align: right;',
 				],
 
 				'selectors' => [
-					'{{WRAPPER}} .deensimc-marquee-vertical .deensimc-marquee-track' => '{{VALUE}};',
+					'{{WRAPPER}} .deensimc-text-marquee .deensimc-marquee-track-wrapper' => '{{VALUE}};',
 				],
 				'condition' => [
 					'deensimc_marquee_vertical_orientation' => 'yes'
@@ -151,8 +120,8 @@ trait Deensimc_Textmarquee_Content_Text_Repeater
 
 		$this->register_gap_control();
 
-		$this->add_control('deensimc_text_marquee_tag', [
-			'label' => __('HTML Tag', 'marquee-addons-for-elementor'),
+		 $this->add_control('deensimc_text_marquee_tag', [
+		'label' => __('HTML Tag', 'marquee-addons-for-elementor'),
 			'type' => Controls_Manager::SELECT,
 			'default' => 'p',
 			'options' => [
@@ -165,7 +134,7 @@ trait Deensimc_Textmarquee_Content_Text_Repeater
 				'span' => 'span',
 				'p' => 'p',
 			],
-		]);
+			]);
 
 		$this->end_controls_section();
 	}

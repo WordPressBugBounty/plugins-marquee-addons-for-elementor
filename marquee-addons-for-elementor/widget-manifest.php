@@ -9,14 +9,13 @@
 
 if (!defined('ABSPATH')) exit;
 
-$free_widgets = [
+return [
     // Free Widgets
     'deensimc-image-marquee' => [
         'title'  => __('Image Marquee', 'marquee-addons-for-elementor'),
         'icon'   => 'deensimc-image-marquee-icon',
         'is_pro' => false,
         'demo'   => 'https://marqueeaddons.com/image-marquee/',
-        'doc'   => 'https://marqueeaddons.com/how-to-use-the-image-marquee-widget-in-elementor/',
         'cat'    => 'general',
         'pro_url' => '',
         'trait_dirs' => [
@@ -30,7 +29,6 @@ $free_widgets = [
         'icon'   => 'deensimc-text-marquee-icon',
         'is_pro' => false,
         'demo'   => 'https://marqueeaddons.com/text-marquee/',
-        'doc'   => 'https://marqueeaddons.com/how-to-use-the-advanced-text-marquee-widget-in-elementor/',
         'cat'    => 'general',
         'pro_url' => '',
         'trait_dirs' => [
@@ -44,7 +42,6 @@ $free_widgets = [
         'icon'   => 'deensimc-testimonial-marquee-icon',
         'is_pro' => false,
         'demo'   => 'https://marqueeaddons.com/testimonial-marquee/',
-        'doc'   => 'https://marqueeaddons.com/how-to-use-the-advanced-testimonial-marquee-widget-in-elementor/',
         'cat'    => 'general',
         'pro_url' => '',
         'trait_dirs' => [
@@ -58,7 +55,6 @@ $free_widgets = [
         'icon'   => 'deensimc-video-marquee-icon',
         'is_pro' => false,
         'demo'   => 'https://marqueeaddons.com/video-marquee/',
-        'doc'   => 'https://marqueeaddons.com/how-to-use-the-video-marquee-widget-in-elementor/',
         'cat'    => 'general',
         'pro_url' => '',
         'trait_dirs' => [
@@ -72,7 +68,6 @@ $free_widgets = [
         'icon'   => 'deensimc-stacked-slider-icon',
         'is_pro' => false,
         'demo'   => 'https://marqueeaddons.com/stacked-slider/',
-        'doc'   => 'https://marqueeaddons.com/how-to-use-the-stacked-slider-widget-in-elementor/',
         'cat'    => 'general',
         'pro_url' => '',
         'trait_dirs' => [
@@ -87,7 +82,6 @@ $free_widgets = [
         'icon'   => 'deensimc-image-accordion-icon',
         'is_pro' => false,
         'demo'   => 'https://marqueeaddons.com/marquee-demos/image-accordion/',
-        'doc'   => 'https://marqueeaddons.com/how-to-use-the-image-accordion-widget-in-elementor/',
         'cat'    => 'general',
         'pro_url' => '',
         'trait_dirs' => [
@@ -101,7 +95,6 @@ $free_widgets = [
         'icon'   => 'deensimc-news-ticker-icon',
         'is_pro' => false,
         'demo'   => 'https://marqueeaddons.com/news-ticker/',
-        'doc'   => 'https://marqueeaddons.com/how-to-use-the-news-ticker-widget-in-elementor/',
         'cat'    => 'general',
         'pro_url' => '',
         'trait_dirs' => [
@@ -115,7 +108,6 @@ $free_widgets = [
         'icon'   => 'deensimc-animated-word-roller-icon',
         'is_pro' => false,
         'demo'   => 'https://marqueeaddons.com/animated-word-roller/',
-        'doc'   => 'https://marqueeaddons.com/how-to-use-the-animated-word-roller-widget-in-elementor/',
         'cat'    => 'general',
         'pro_url' => '',
         'trait_dirs' => [
@@ -129,7 +121,6 @@ $free_widgets = [
         'icon'   => 'deensimc-animated-heading-icon',
         'is_pro' => false,
         'demo'   => 'https://marqueeaddons.com/animated-heading/',
-        'doc'   => 'https://marqueeaddons.com/how-to-use-the-animated-headline-marquee-widget-in-elementor/',
         'cat'    => 'general',
         'pro_url' => '',
         'trait_dirs' => [
@@ -143,7 +134,6 @@ $free_widgets = [
         'icon'   => 'deensimc-button-marquee-icon',
         'is_pro' => false,
         'demo'   => 'https://marqueeaddons.com/button-marquee/',
-        'doc'   => 'https://marqueeaddons.com/how-to-use-the-button-marquee-widget-in-elementor/',
         'cat'    => 'general',
         'pro_url' => '',
         'trait_dirs' => [
@@ -157,7 +147,6 @@ $free_widgets = [
         'icon'   => 'deensimc-search-icon',
         'is_pro' => false,
         'demo'   => 'https://marqueeaddons.com',
-        'doc'   => 'https://marqueeaddons.com/how-to-use-search-widget-in-elementor/',
         'cat'    => 'general',
         'pro_url' => '',
         'trait_dirs' => [
@@ -171,7 +160,6 @@ $free_widgets = [
         'icon'   => 'eicon-image-hotspot',
         'is_pro' => false,
         'demo'   => 'https://marqueeaddons.com/image-hotspot/',
-        'doc'   => 'https://marqueeaddons.com/how-to-use-the-image-hotspot-widget-in-elementor/',
         'cat'    => 'general',
         'pro_url' => '',
         'trait_dirs' => [
@@ -179,18 +167,16 @@ $free_widgets = [
         ],
         'file' => 'class-deensimc-image-hotspot.php',
         'class' => '\Deensimc_Image_Hotspot',
-    ]
-];
+    ],
 
-$pro_widgets = [
+    // PRO Widgets & Extensions
     'deensimcpro-3d-grid-marquee' => [
         'cat'    => 'general',
         'title'  => __('3D Grid Marquee', 'marquee-addons-for-elementor'),
         'icon'   => 'deensimcpro-3d-grid-marquee-icon eicon-deensimc-pro',
         'is_pro' => true,
         'demo'   => 'https://marqueeaddons.com/3d-grid-marquee/',
-        'doc'   => 'https://marqueeaddons.com/how-to-use-the-3d-grid-marquee-widget-in-elementor/',
-        'pro_url' => 'https://marqueeaddons.com/pricing/?utm_source=wordpress.org',
+        'pro_url' => 'https://marqueeaddons.com/pricing/',
     ],
     'deensimcpro-card-list' => [
         'cat'    => 'general',
@@ -198,8 +184,7 @@ $pro_widgets = [
         'icon'   => 'deensimcpro-card-marquee-icon eicon-deensimc-pro',
         'is_pro' => true,
         'demo'   => 'https://marqueeaddons.com/card-marquee/',
-        'doc'   => 'https://marqueeaddons.com/how-to-use-the-card-marquee-widget-in-elementor/',
-        'pro_url' => 'https://marqueeaddons.com/pricing/?utm_source=wordpress.org',
+        'pro_url' => 'https://marqueeaddons.com/pricing/',
     ],
     'deensimcpro-circular-text-pro' => [
         'cat'    => 'general',
@@ -207,8 +192,7 @@ $pro_widgets = [
         'icon'   => 'deensimcpro-circular-text-icon eicon-deensimc-pro',
         'is_pro' => true,
         'demo'   => 'https://marqueeaddons.com/circular-text-rotation/',
-        'doc'   => 'https://marqueeaddons.com/how-to-use-circular-text-rotation-widget/',
-        'pro_url' => 'https://marqueeaddons.com/pricing/?utm_source=wordpress.org',
+        'pro_url' => 'https://marqueeaddons.com/pricing/',
     ],
     'deensimcpro-image-accordion' => [
         'cat'    => 'general',
@@ -216,8 +200,7 @@ $pro_widgets = [
         'icon'   => 'deensimcpro-image-accordion-icon eicon-deensimc-pro',
         'is_pro' => true,
         'demo'   => 'https://marqueeaddons.com/image-accordion-pro/',
-        'doc'   => 'https://marqueeaddons.com/how-to-use-the-image-accordion-pro-widget-in-elementor/',
-        'pro_url' => 'https://marqueeaddons.com/pricing/?utm_source=wordpress.org',
+        'pro_url' => 'https://marqueeaddons.com/pricing/',
     ],
     'deensimcpro-media-marquee' => [
         'cat'    => 'general',
@@ -225,35 +208,7 @@ $pro_widgets = [
         'icon'   => 'deensimcpro-media-marquee-icon eicon-deensimc-pro',
         'is_pro' => true,
         'demo'   => 'https://marqueeaddons.com/media-marquee/',
-        'doc'   => 'https://marqueeaddons.com/how-to-use-the-media-marquee-widget-in-elementor/',
-        'pro_url' => 'https://marqueeaddons.com/pricing/?utm_source=wordpress.org',
-    ],
-    'deensimcpro-youtube-shorts-marquee' => [
-        'cat'    => 'general',
-        'title'  => __('YouTube Shorts Marquee', 'marquee-addons-for-elementor'),
-        'icon'   => 'eicon-e-youtube eicon-deensimc-pro',
-        'is_pro' => true,
-        'demo'   => 'https://marqueeaddons.com/youtube-shorts-marquee/',
-        'doc'   => 'https://marqueeaddons.com/docs/',
-        'pro_url' => 'https://marqueeaddons.com/pricing/?utm_source=wordpress.org',
-    ],
-    'deensimcpro-instagram-marquee' => [
-        'cat'    => 'general',
-        'title'  => __('Instagram Marquee', 'marquee-addons-for-elementor'),
-        'icon'   => 'deensimcpro-instagram-marquee-icon eicon-deensimc-pro',
-        'is_pro' => true,
-        'demo'   => 'https://marqueeaddons.com/instagram-marquee/',
-        'doc'   => 'https://marqueeaddons.com/docs/',
-        'pro_url' => 'https://marqueeaddons.com/pricing/?utm_source=wordpress.org',
-    ],
-    'deensimcpro-tiktok-marquee' => [
-        'cat'    => 'general',
-        'title'  => __('TikTok Marquee', 'marquee-addons-for-elementor'),
-        'icon'   => 'deensimcpro-tiktok-marquee-icon eicon-deensimc-pro',
-        'is_pro' => true,
-        'demo'   => 'https://marqueeaddons.com/tiktok-marquee/',
-        'doc'   => 'https://marqueeaddons.com/docs/',
-        'pro_url' => 'https://marqueeaddons.com/pricing/?utm_source=wordpress.org',
+        'pro_url' => 'https://marqueeaddons.com/pricing/',
     ],
     'deensimcpro-post-marquee' => [
         'cat'    => 'general',
@@ -261,8 +216,7 @@ $pro_widgets = [
         'icon'   => 'deensimcpro-post-marquee-icon eicon-deensimc-pro',
         'is_pro' => true,
         'demo'   => 'https://marqueeaddons.com/post-marquee/',
-        'doc'   => 'https://marqueeaddons.com/how-to-use-the-post-marquee-widget-in-elementor/',
-        'pro_url' => 'https://marqueeaddons.com/pricing/?utm_source=wordpress.org',
+        'pro_url' => 'https://marqueeaddons.com/pricing/',
     ],
     'deensimcpro-product-category-marquee' => [
         'cat'    => 'woocommerce',
@@ -270,8 +224,7 @@ $pro_widgets = [
         'icon'   => 'deensimcpro-product-cat-marquee-icon eicon-deensimc-pro',
         'is_pro' => true,
         'demo'   => 'https://marqueeaddons.com/product-marquee/',
-        'doc'   => 'https://marqueeaddons.com/how-to-use-product-category-marquee/',
-        'pro_url' => 'https://marqueeaddons.com/pricing/?utm_source=wordpress.org',
+        'pro_url' => 'https://marqueeaddons.com/pricing/',
     ],
     'deensimcpro-product-marquee' => [
         'cat'    => 'woocommerce',
@@ -279,17 +232,15 @@ $pro_widgets = [
         'icon'   => 'deensimcpro-product-marquee-icon eicon-deensimc-pro',
         'is_pro' => true,
         'demo'   => 'https://marqueeaddons.com/product-marquee/',
-        'doc'   => 'https://marqueeaddons.com/how-to-use-the-product-marquee-in-elementor/',
-        'pro_url' => 'https://marqueeaddons.com/pricing/?utm_source=wordpress.org',
+        'pro_url' => 'https://marqueeaddons.com/pricing/',
     ],
     'deensimcpro-product-carousel' => [
         'cat'    => 'woocommerce',
         'title'  => __('Product Carousel', 'marquee-addons-for-elementor'),
         'icon'   => 'deensimcpro-product-carousel-icon eicon-deensimc-pro',
         'is_pro' => true,
-        'demo'   => 'https://marqueeaddons.com/product-marquee/#product-carousel-demo',
-        'doc'   => 'https://marqueeaddons.com/how-to-create-the-product-carousel-in-elementor/',
-        'pro_url' => 'https://marqueeaddons.com/pricing/?utm_source=wordpress.org',
+        'demo'   => 'https://marqueeaddons.com/pricing',
+        'pro_url' => 'https://marqueeaddons.com/pricing/',
     ],
     'deensimcpro-sticky-cards' => [
         'cat'    => 'general',
@@ -297,8 +248,7 @@ $pro_widgets = [
         'icon'   => 'deensimcpro-sticky-cards-icon eicon-deensimc-pro',
         'is_pro' => true,
         'demo'   => 'https://marqueeaddons.com/sticky-cards/',
-        'doc'   => 'https://marqueeaddons.com/how-to-use-the-sticky-cards-widget-in-elementor/',
-        'pro_url' => 'https://marqueeaddons.com/pricing/?utm_source=wordpress.org',
+        'pro_url' => 'https://marqueeaddons.com/pricing/',
     ],
     'deensimc-testimonial-pro' => [
         'cat'    => 'general',
@@ -306,8 +256,7 @@ $pro_widgets = [
         'icon'   => 'deensimcpro-testimonial-marquee-icon eicon-deensimc-pro',
         'is_pro' => true,
         'demo'   => 'https://marqueeaddons.com/testimonial-marquee/',
-        'doc'   => 'https://marqueeaddons.com/how-to-use-the-advanced-testimonial-marquee-widget-in-elementor/',
-        'pro_url' => 'https://marqueeaddons.com/pricing/?utm_source=wordpress.org',
+        'pro_url' => 'https://marqueeaddons.com/pricing/',
     ],
     'deensimc-smooth-text-pro' => [
         'cat'    => 'general',
@@ -315,8 +264,7 @@ $pro_widgets = [
         'icon'   => 'deensimcpro-text-marquee-icon eicon-deensimc-pro',
         'is_pro' => true,
         'demo'   => 'https://marqueeaddons.com/text-marquee/',
-        'doc'   => 'https://marqueeaddons.com/how-to-use-the-advanced-text-marquee-widget-in-elementor/',
-        'pro_url' => 'https://marqueeaddons.com/pricing/?utm_source=wordpress.org',
+        'pro_url' => 'https://marqueeaddons.com/pricing/',
     ],
     'deensimcpro-smart-tabs' => [
         'cat'    => 'general',
@@ -324,8 +272,7 @@ $pro_widgets = [
         'icon'   => 'eicon-tabs eicon-deensimc-pro',
         'is_pro' => true,
         'demo'   => 'https://marqueeaddons.com/smart-tabs/',
-        'doc'   => 'https://marqueeaddons.com/how-to-use-the-smart-tabs-widget-in-elementor/',
-        'pro_url' => 'https://marqueeaddons.com/pricing/?utm_source=wordpress.org',
+        'pro_url' => 'https://marqueeaddons.com/pricing/',
     ],
     'deensimcpro-animated-list' => [
         'cat'    => 'general',
@@ -333,8 +280,7 @@ $pro_widgets = [
         'icon'   => 'eicon-post-list eicon-deensimc-pro',
         'is_pro' => true,
         'demo'   => 'https://marqueeaddons.com',
-        'doc'   => 'https://marqueeaddons.com/how-to-use-the-animated-list-in-elementor/',
-        'pro_url' => 'https://marqueeaddons.com/pricing/?utm_source=wordpress.org',
+        'pro_url' => 'https://marqueeaddons.com/pricing/',
     ],
     'deensimcpro-bento-grid' => [
         'cat'    => 'general',
@@ -342,8 +288,7 @@ $pro_widgets = [
         'icon'   => 'eicon-gallery-grid eicon-deensimc-pro',
         'is_pro' => true,
         'demo'   => 'https://marqueeaddons.com/bento-grid/',
-        'doc'   => 'https://marqueeaddons.com/how-to-use-the-bento-grid-in-elementor/',
-        'pro_url' => 'https://marqueeaddons.com/pricing/?utm_source=wordpress.org',
+        'pro_url' => 'https://marqueeaddons.com/pricing/',
     ],
     'deensimcpro-text-reveal' => [
         'cat'    => 'general',
@@ -351,30 +296,22 @@ $pro_widgets = [
         'icon'   => 'eicon-animation-text eicon-deensimc-pro',
         'is_pro' => true,
         'demo'   => 'https://marqueeaddons.com/text-reveal/',
-        'doc'   => 'https://marqueeaddons.com/how-to-use-the-text-reveal-widget-in-elementor/',
-        'pro_url' => 'https://marqueeaddons.com/pricing/?utm_source=wordpress.org',
+        'pro_url' => 'https://marqueeaddons.com/pricing/',
     ],
     'deensimcpro-container-background' => [
         'title'  => __('Container Background', 'marquee-addons-for-elementor'),
         'icon'   => 'dashicons dashicons-admin-appearance',
         'is_pro' => true,
         'demo'   => 'https://marqueeaddons.com/ma-background/',
-        'doc'   => 'https://marqueeaddons.com/create-stunning-animated-backgrounds-in-elementor/',
         'cat'    => 'extensions',
-        'pro_url' => 'https://marqueeaddons.com/pricing/?utm_source=wordpress.org',
+        'pro_url' => 'https://marqueeaddons.com/pricing/',
     ],
     'deensimcpro-image-rotation' => [
         'title'  => __('Image Rotation', 'marquee-addons-for-elementor'),
         'icon'   => 'dashicons dashicons-format-image',
         'is_pro' => true,
         'demo'   => 'https://marqueeaddons.com/',
-        'doc'   => 'https://marqueeaddons.com/how-to-use-image-rotation-in-elementor/',
         'cat'    => 'extensions',
-        'pro_url' => 'https://marqueeaddons.com/image-rotation/',
+        'pro_url' => 'https://marqueeaddons.com/pricing/',
     ],
-];
-
-return [
-    'free' => $free_widgets,
-    'pro'  => $pro_widgets
 ];
