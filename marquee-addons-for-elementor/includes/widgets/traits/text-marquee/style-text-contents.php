@@ -81,33 +81,6 @@ trait Deensimc_Textmarquee_Style_Text_Contents
 
 		$this->end_controls_tabs();
 
-		$this->add_responsive_control(
-			'deensimc_widget_height',
-			[
-				'label' => esc_html__('Section Height', 'marquee-addons-for-elementor'),
-				'type' =>  Controls_Manager::SLIDER,
-				'size_units' => ['vh'],
-				'range' => [
-					'vh' => [
-						'min' => 1,
-						'max' => 100,
-						'step' => 1,
-					],
-				],
-
-				'default' => [
-					'unit' => 'vh',
-					'size' => 60,
-				],
-				'condition' => [
-					'deensimc_marquee_vertical_orientation' => 'yes',
-				],
-				'selectors' => [
-					'{{WRAPPER}} .deensimc-marquee-vertical.deensimc-marquee-main-container' => 'height: {{SIZE}}vh;',
-				],
-			]
-		);
-
 
 		$this->add_control(
 			'deensimc_icon_heading',
@@ -185,7 +158,7 @@ trait Deensimc_Textmarquee_Style_Text_Contents
 		$this->add_responsive_control(
 			'deensimc_icon_vertical_alignment',
 			[
-				'label' => esc_html__('Vertical Alignment', 'marquee-addons-for-elementor'),
+				'label' => esc_html__('Icon Alignment', 'marquee-addons-for-elementor'),
 				'type' => Controls_Manager::CHOOSE,
 				'options' => [
 					'start' => [
@@ -207,48 +180,49 @@ trait Deensimc_Textmarquee_Style_Text_Contents
 					'{{WRAPPER}} .deensimc-text-wrapper svg' => 'align-self: {{VALUE}}; flex-shrink: 0;',
 					'{{WRAPPER}} .deensimc-text-wrapper i' => 'align-self: {{VALUE}}; flex-shrink: 0;',
 				],
-				'condition' => [
-					'deensimc_marquee_vertical_orientation' => 'yes',
+			]
+		);
+
+		$this->add_responsive_control(
+			'deensimc_text_icon_translate_x',
+			[
+				'label' => esc_html__('Offset X', 'marquee-addons-for-elementor'),
+				'type' => Controls_Manager::SLIDER,
+				'size_units' => ['px'],
+				'range' => [
+					'px' => [
+						'min' => -20,
+						'max' => 20,
+						'step' => 1,
+					],
+				],
+				'selectors' => [
+					'{{WRAPPER}} .deensimc-text-wrapper svg' => '--deensimc-icon-translate-x: {{SIZE}}{{UNIT}}; transform: translate(var(--deensimc-icon-translate-x, 0), var(--deensimc-icon-translate-y, 0));',
+					'{{WRAPPER}} .deensimc-text-wrapper i' => '--deensimc-icon-translate-x: {{SIZE}}{{UNIT}}; transform: translate(var(--deensimc-icon-translate-x, 0), var(--deensimc-icon-translate-y, 0));',
 				],
 			]
 		);
 
 		$this->add_responsive_control(
-			'deensimc_icon_adjust_vertical_position',
+			'deensimc_text_icon_translate_y',
 			[
-				'label' => esc_html__('Adjust Vertical Position', 'marquee-addons-for-elementor'),
+				'label' => esc_html__('Offset Y', 'marquee-addons-for-elementor'),
 				'type' => Controls_Manager::SLIDER,
-				'size_units' => ['px', 'em', 'rem'],
+				'size_units' => ['px'],
 				'range' => [
 					'px' => [
-						'min' => -16,
-						'max' => 16,
+						'min' => -20,
+						'max' => 20,
 						'step' => 1,
 					],
-					'em' => [
-						'min' => -1,
-						'max' => 1,
-						'step' => 0.1,
-					],
-					'rem' => [
-						'min' => -1,
-						'max' => 1,
-						'step' => 0.1,
-					],
-				],
-				'default' => [
-					'unit' => 'px',
-					'size' => 0,
 				],
 				'selectors' => [
-					'{{WRAPPER}} .deensimc-text-wrapper svg' => 'margin-block: {{SIZE}}{{UNIT}};',
-					'{{WRAPPER}} .deensimc-text-wrapper i' => 'margin-block: {{SIZE}}{{UNIT}};',
-				],
-				'condition' => [
-					'deensimc_marquee_vertical_orientation' => 'yes',
+					'{{WRAPPER}} .deensimc-text-wrapper svg' => '--deensimc-icon-translate-y: {{SIZE}}{{UNIT}}; transform: translate(var(--deensimc-icon-translate-x, 0), var(--deensimc-icon-translate-y, 0));',
+					'{{WRAPPER}} .deensimc-text-wrapper i' => '--deensimc-icon-translate-y: {{SIZE}}{{UNIT}}; transform: translate(var(--deensimc-icon-translate-x, 0), var(--deensimc-icon-translate-y, 0));',
 				],
 			]
 		);
+
 		// animation 
 		$this->add_control(
 			'deensimc_icon_animation',

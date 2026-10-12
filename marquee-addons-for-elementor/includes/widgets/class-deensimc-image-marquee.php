@@ -6,6 +6,7 @@ if (! defined('ABSPATH')) {
 
 // Elementor Classes
 use \Elementor\Widget_Base;
+use \Elementor\Group_Control_Image_Size;
 
 /**
  * Class Deensimc_Image_Marquee
@@ -93,28 +94,49 @@ class Deensimc_Image_Marquee extends Widget_Base
 	protected function render_image_gallery_group($settings, $link_type, $lazy_load_attr, $open_lightbox)
 	{
 		$images = $settings['deensimc_upload_gallery'] ?? [];
-		$required = 8;
-		$count    = count($images);
-
-		if ( $count > 0 && $count < $required ) {
-			$original = $images;
-			// Duplicate full batches until we have at least $required
-			while ( count( $images ) < $required ) {
-				foreach ( $original as $img ) {
-					$dup = $img;
-					$dup['_is_dup'] = true;
-					$images[] = $dup;
-				}
-			}
-		}
 
 		foreach ($images as $image) {
+			if (empty($image['url'])) {
+				continue;
+			}
+
+			$image_id = !empty($image['id']) ? absint($image['id']) : 0;
+			$is_svg   = (bool) preg_match('/\.svg(\?.*)?$/i', $image['url']);
+
+			$image_url = $image['url'];
+
+			if ($image_id && !$is_svg) {
+				$sized = Group_Control_Image_Size::get_attachment_image_src(
+					$image_id,
+					'deensimc_image_marquee',
+					$settings
+				);
+
+				if (!empty($sized)) {
+					$image_url = $sized;
+				}
+			}
+
+			if (!preg_match('/\.(jpe?g|png|gif|webp|avif|bmp|svg)(\?.*)?$/i', $image_url)) {
+				continue;
+			}
 			$is_dup = !empty($image['_is_dup']);
-			$alt = !empty($image['alt']) ? $image['alt'] : 'Image gallery marquee';
+
+			// Fetch WP Attachment Alt text if available, fallback to custom alt or original string
+			$alt = '';
+			if ($image_id) {
+				$alt = get_post_meta($image_id, '_wp_attachment_image_alt', true);
+			}
+			if (empty($alt) && !empty($image['alt'])) {
+				$alt = $image['alt'];
+			}
+			if (empty($alt)) {
+				$alt = 'Image gallery marquee';
+			}
 
 			if ($link_type !== 'none') {
 				if ($link_type === 'file') {
-					echo '<a data-elementor-open-lightbox="' . esc_attr($open_lightbox) . '" href="' . esc_url($image['url']) . '"' . ($is_dup ? ' aria-hidden="true" tabindex="-1"' : '') . '>';
+					echo '<a data-elementor-open-lightbox="' . esc_attr($open_lightbox) . '" href="' . esc_url($image_url) . '"' . ($is_dup ? ' aria-hidden="true" tabindex="-1"' : '') . '>';
 				} elseif ($link_type === 'custom') { ?>
 					<a <?php $this->print_render_attribute_string('deensimc_link'); ?> aria-hidden="<?php echo esc_attr($is_dup ? 'true' : 'false') ?>" tabindex="<?php echo esc_attr($is_dup ? '-1' : '') ?>">
 			<?php
@@ -122,7 +144,7 @@ class Deensimc_Image_Marquee extends Widget_Base
 			}
 
 			echo '<figure class="deensimc-img-wrapper"' . ($is_dup ? ' aria-hidden="true"' : '') . '>';
-			echo '<div class="deensimc-img"><img class="deensimc-marquee-image" src="' . esc_url($image['url']) . '" ' . esc_html($lazy_load_attr) . ' alt="' . esc_attr($alt) . '"></div>';
+			echo '<div class="deensimc-img"><img class="deensimc-marquee-image" src="' . esc_url($image_url) . '" ' . esc_html($lazy_load_attr) . ' alt="' . esc_attr($alt) . '"></div>';
 			echo '<figcaption class="deensimc-image-marquee-caption">'
 				. esc_html($this->deensimc_get_caption($image, $settings['deensimc_caption_type']))
 				. '</figcaption>';
@@ -167,7 +189,7 @@ class Deensimc_Image_Marquee extends Widget_Base
 			$conditional_class[] = 'deensimc-marquee-edge-shadow';
 		}
 			?>
-			<div class="deensimc-marquee-main-container deensimc-image-marquee <?php echo esc_attr(implode(' ', $conditional_class)) ?>" data-marquee-speed="<?php echo esc_attr($marquee_speed) ?>">
+			<div class="deensimc-marquee-main-container deensimc-image-marquee <?php echo esc_attr(implode(' ', $conditional_class)) ?>" data-marquee-speed="<?php echo esc_attr($marquee_speed) ?>" data-track-fill="yes" data-track-item-selector="*">
 				<div class="deensimc-marquee-track-wrapper">
 					<div class="deensimc-marquee-track">
 						<?php $this->render_image_gallery_group($settings, $link_type, $lazy_load_attr, $open_lightbox); ?>

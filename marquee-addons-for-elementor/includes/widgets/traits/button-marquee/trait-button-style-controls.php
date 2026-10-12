@@ -55,6 +55,49 @@ trait Deensimc_Button_Style_Controls
         ],
       ]
     );
+    $this->add_responsive_control(
+      'deensimc_button_fixed_width_switch',
+      [
+        'label' => esc_html__('Fixed width', 'marquee-addons-for-elementor'),
+        'type' => Controls_Manager::SWITCHER,
+        'label_on' => esc_html__('On', 'marquee-addons-for-elementor'),
+        'label_off' => esc_html__('Off', 'marquee-addons-for-elementor'),
+        'return_value' => 'yes',
+        'default' => '',
+      ]
+    );
+
+    $this->add_responsive_control(
+      'deensimc_button_width',
+      [
+        'label' => esc_html__('Width', 'marquee-addons-for-elementor'),
+        'type' => Controls_Manager::SLIDER,
+        'size_units' => ['%', 'px'],
+        'range' => [
+          '%' => [
+            'min' => 0,
+            'max' => 100,
+            'step' => 1,
+          ],
+          'px' => [
+            'min' => 100,
+            'max' => 500,
+            'step' => 1,
+          ],
+        ],
+        'default' => [
+          'unit' => 'px',
+          'size' => 150,
+        ],
+        'condition' => [
+          'deensimc_button_fixed_width_switch' => 'yes',
+        ],
+        'selectors' => [
+          '{{WRAPPER}} .deensimc-button' => 'width: {{SIZE}}{{UNIT}};',
+          '{{WRAPPER}} .deensimc-button-marquee' => 'width: {{SIZE}}{{UNIT}};',
+        ],
+      ]
+    );
 
     $this->add_control('deensimc_button_text_gap', [
       'label' => esc_html__('Gap', 'marquee-addons-for-elementor'),
@@ -235,6 +278,7 @@ trait Deensimc_Button_Style_Controls
       [
         'label'     => esc_html__('Icon Color', 'marquee-addons-for-elementor'),
         'type'      => Controls_Manager::COLOR,
+        'default' => '#fff',
         'selectors' => [
           '{{WRAPPER}} .deensimc-button svg'       => 'fill: {{VALUE}};',
           '{{WRAPPER}} .deensimc-button i'         => 'color: {{VALUE}};',
@@ -254,6 +298,10 @@ trait Deensimc_Button_Style_Controls
         'label' => esc_html__('Icon Size', 'marquee-addons-for-elementor'),
         'type'  => Controls_Manager::SLIDER,
         'size_units' => ['px', 'em', 'rem'],
+        'default' => [
+          'size' => 20,
+          'unit' => 'px',
+        ],
         'range' => [
           'px' => [
             'min' => 8,

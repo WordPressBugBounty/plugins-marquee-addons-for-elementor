@@ -34,6 +34,7 @@ trait Testimonial_Marquee_Contents
 				'rows' => 10,
 				'default' => esc_html__('Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut elit tellus, luctus nec ullamcorper mattis, pulvinar dapibus leo.', 'marquee-addons-for-elementor'),
 				'placeholder' => esc_html__('Type testimonial content', 'marquee-addons-for-elementor'),
+				'description' => esc_html__('Allowed HTML tags: <strong>, <em>, <br>', 'marquee-addons-for-elementor'),
 			]
 		);
 
@@ -72,8 +73,8 @@ trait Testimonial_Marquee_Contents
 			Group_Control_Background::get_type(),
 			[
 				'name' => 'deensimc_testimonial_contents_background',
-				'types' => [ 'classic', 'gradient'],
-				'exclude' => [ 'image' ],
+				'types' => ['classic', 'gradient'],
+				'exclude' => ['image'],
 				'selector' => '{{WRAPPER}} {{CURRENT_ITEM}} .deensimc-tes-text',
 
 			]
@@ -167,41 +168,6 @@ trait Testimonial_Marquee_Contents
 			]
 		);
 
-		$this->add_responsive_control(
-			'deensimc_vertical_testimonial_align',
-			[
-				'label' => esc_html__('Vertical Alignment', 'marquee-addons-for-elementor'),
-				'type' =>  Controls_Manager::CHOOSE,
-				'options' => [
-					'left' => [
-						'title' => esc_html__('Left', 'marquee-addons-for-elementor'),
-						'icon' => 'eicon-h-align-left',
-					],
-					'center' => [
-						'title' => esc_html__('Center', 'marquee-addons-for-elementor'),
-						'icon' => 'eicon-h-align-center',
-					],
-					'right' => [
-						'title' => esc_html__('Right', 'marquee-addons-for-elementor'),
-						'icon' => 'eicon-h-align-right',
-					],
-				],
-				'default' => 'center',
-				'toggle' => true,
-				'separator' => 'after',
-				'selectors_dictionary' => [
-					'left' => 'margin-left: 0; margin-right: auto;',
-					'center' => 'margin-left: auto; margin-right: auto;',
-					'right' => 'margin-left: auto; margin-right: 0;',
-				],
-				'selectors' => [
-					'{{WRAPPER}} .deensimc-testimonial-marquee .deensimc-marquee-track-wrapper' => '{{VALUE}};',
-				],
-				'condition' => [
-					'deensimc_marquee_vertical_orientation' => 'yes',
-				],
-			]
-		);
 
 		$this->add_control(
 			'deensimc_testimonial_quote_left_icon',

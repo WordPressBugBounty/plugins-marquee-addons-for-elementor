@@ -2,13 +2,15 @@
 
 namespace Deensimc_Marquee;
 
+if (!defined('ABSPATH')) exit;
+
 use Deensimc_Marquee\Misc\Deensimcpro_Promo;
 
 final class Marquee
 {
 	use Deensimcpro_Promo;
 
-	const VERSION = '3.9.10';
+	const VERSION = '3.9.90';
 	const MINIMUM_ELEMENTOR_VERSION = '3.5.0';
 	const MINIMUM_PHP_VERSION = '7.4';
 
@@ -38,7 +40,6 @@ final class Marquee
 	{
 		// Check if Elementor installed and activated
 		if (! did_action('elementor/loaded')) {
-			add_action('admin_notices', [$this, 'admin_notice_missing_main_plugin']);
 			return false;
 		}
 
@@ -82,17 +83,7 @@ final class Marquee
 		return DEENSIMC_ASSETS_URL . $path;
 	}
 
-	public function admin_notice_missing_main_plugin()
-	{
-		$message = sprintf(
-			/* translators: %1$s is replaced with " Marquee Addons for Elementor – Advanced Elements & Modern Motion Widgets"  and %2$s is replaced with "Elementor"*/
-			esc_html__('"%1$s" requires "%2$s" to be installed and activated.', 'marquee-addons-for-elementor'),
-			'<strong>' . esc_html__(' Marquee Addons for Elementor – Advanced Elements & Modern Motion Widgets', 'marquee-addons-for-elementor') . '</strong>',
-			'<strong>' . esc_html__('Elementor', 'marquee-addons-for-elementor') . '</strong>'
-		);
 
-		printf('<div class="notice notice-warning is-dismissible"><p>%1$s</p></div>', wp_kses($message, $this->deensimc_allowed_tags()));
-	}
 
 	public function admin_notice_minimum_elementor_version()
 	{
@@ -122,14 +113,6 @@ final class Marquee
 
 	public function init()
 	{
-		add_action('admin_enqueue_scripts', [$this, 'deensimc_notice_enqueue_scripts'], 10);
-
-		if (!class_exists('\Deensimcpro_Marquee\Marqueepro')) {
-			add_action('admin_notices', [$this, 'deensimc_rate_us'], 10);
-			add_action('wp_ajax_deensimc_notice_dismiss', [$this, 'deensimc_notice_dismiss'], 10);
-			add_action('wp_ajax_deensimc_never_show_notice', [$this, 'deensimc_never_show_notice']);
-		}
-
 		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 		if (!class_exists('\Deensimcpro_Marquee\Marqueepro') || !apply_filters('marquee_addons_is_license_active', false)) {
 			add_action('elementor/editor/before_enqueue_styles', [$this, 'deensimc_promotion_styles'], 10);
@@ -139,109 +122,12 @@ final class Marquee
 
 		add_action('elementor/frontend/after_enqueue_styles', [$this, 'deensimc_frontend_styles'], 20);
 		add_action('elementor/frontend/after_register_scripts', [$this, 'deensimc_frontend_scripts'], 20);
+		add_action('elementor/frontend/widget/after_render', [$this, 'deensimc_render_noscript_notice'], 20, 1);
 		add_action('elementor/elements/categories_registered', [$this, 'deensimc_add_categories'], 10);
 		add_action('elementor/editor/before_enqueue_styles', [$this, 'deensimc_editor_styles'], 10);
 		add_action('elementor/editor/after_enqueue_scripts', [$this, 'deensimc_editor_script'], 10);
 		add_action('elementor/frontend/after_enqueue_scripts', [$this, 'deensimc_elementor_library'], 20);
 		add_filter('plugin_action_links_marquee-addons-for-elementor/marquee-addons-for-elementor.php', [$this, 'deensimc_upgrade_link'], 10);
-	}
-
-	public function deensimc_notice_enqueue_scripts($hook)
-	{
-		if ($hook !== 'plugins.php') {
-			return;
-		}
-
-		$admin_styles = [
-			'deensimc-feedback-style' => 'css/admin/notice.css',
-		];
-
-		foreach ($admin_styles as $handle => $path) {
-			wp_enqueue_style(
-				$handle,
-				$this->get_asset_url($path, 'css'),
-				null,
-				self::VERSION,
-				false
-			);
-		}
-
-		$admin_scripts = [
-			'deensimc-feedback-script' => 'js/admin/dismiss.js',
-		];
-
-		foreach ($admin_scripts as $handle => $path) {
-			wp_enqueue_script(
-				$handle,
-				$this->get_asset_url($path, 'js'),
-				['jquery'],
-				self::VERSION,
-				true
-			);
-		}
-
-		wp_localize_script(
-			'deensimc-feedback-script',
-			'DeensimcFB',
-			[
-				'ajax_url' => admin_url('admin-ajax.php'),
-				'nonce'    => wp_create_nonce('deensimc_dismiss_nonce'),
-				'days'     => 30,
-			]
-		);
-	}
-
-	public function deensimc_rate_us()
-	{
-		global $pagenow;
-
-		if ($pagenow !== 'plugins.php') {
-			return;
-		}
-
-		if (!current_user_can('manage_options')) {
-			return;
-		}
-
-		if (get_transient('deensimc_rate_us_' . self::VERSION)) {
-			return;
-		}
-
-		if (get_option('deensimc_never_show_notice')) {
-			return;
-		}
-
-		echo '<div id="deensimc-feedback-notice" class="deensimc-notice-wrap notice is-dismissible">';
-		echo '  <div class="deensimc-notice-icon">';
-		echo '    <img src="' . esc_url(DEENSIMC_ASSETS_URL) . 'images/library-icon.png" alt="Notice Icon" />';
-		echo '  </div>';
-		echo '  <div class="deensimc-notice-content">';
-		echo '    <h3>Upgrade to Marquee Addons Pro</h3>';
-		echo '    <p>Unlock more advance widgets and make your Elementor website 10x better with Marquee Addons.</p>';
-		echo '    <a href="https://marqueeaddons.com/pricing/" target="_blank" class="button button-primary">Upgrade to Pro</a>';
-		echo '    <a href="https://wordpress.org/support/plugin/marquee-addons-for-elementor/reviews/#new-post" target="_blank" class="button button-primary">Rate Us</a>';
-		echo '    <button class="button deensimc-dismiss-btn">Remind me later</button>';
-		echo '    <button class="button deensimc-never-show">Don\'t show me again</button>';
-		echo '  </div>';
-		echo '</div>';
-	}
-
-	public function deensimc_notice_dismiss()
-	{
-		check_ajax_referer('deensimc_dismiss_nonce', 'nonce');
-		set_transient(
-			'deensimc_rate_us_' . self::VERSION,
-			true,
-			30 * 86400
-		);
-		wp_send_json_success();
-	}
-
-	public function deensimc_never_show_notice()
-	{
-		check_ajax_referer('deensimc_dismiss_nonce', 'nonce');
-		update_option('deensimc_never_show_notice', true);
-		wp_send_json_success();
 	}
 
 	public function deensimc_frontend_styles()
@@ -286,6 +172,7 @@ final class Marquee
 	{
 		// All frontend widget scripts with minification support
 		$scripts = [
+			'deensimc-marquee-track-fill' => 'js/marquee-track-fill.js',
 			'deensimc-handle-animation-duration' => 'js/handle-animation-duration.js',
 			'deensimc-init-text-length-toggle' => 'js/initTextLengthToggle.js',
 			'deensimc-button-marquee-script' => 'js/button-marquee.js',
@@ -309,18 +196,43 @@ final class Marquee
 			'deensimc-image-hotspot-script' => 'js/image-hotspot.js',
 		];
 
+		$script_dependencies = [
+			'deensimc-handle-animation-duration' => ['jquery', 'deensimc-marquee-track-fill'],
+		];
+
 		foreach ($scripts as $handle => $path) {
 			wp_register_script(
 				$handle,
 				$this->get_asset_url($path, 'js'),
-				['jquery'],
+				$script_dependencies[$handle] ?? ['jquery'],
 				self::VERSION,
 				false
 			);
 		}
 
+		wp_enqueue_script('deensimc-marquee-track-fill');
 		wp_enqueue_script('deensimc-handle-animation-duration');
 		wp_enqueue_script('deensimc-init-text-length-toggle');
+	}
+
+	public function deensimc_render_noscript_notice($widget)
+	{
+		if (! is_object($widget) || ! method_exists($widget, 'get_categories')) {
+			return;
+		}
+
+		$categories = $widget->get_categories();
+
+		if (! is_array($categories) || ! in_array('deensimc_smooth_marquee', $categories, true)) {
+			return;
+		}
+?>
+		<noscript>
+			<div class="deensimc-noscript-notice" role="note">
+				<?php echo esc_html__('This section requires JavaScript to load properly. Please enable JavaScript in your browser and reload the page.', 'marquee-addons-for-elementor'); ?>
+			</div>
+		</noscript>
+<?php
 	}
 
 	public function deensimc_editor_styles()
@@ -408,7 +320,7 @@ final class Marquee
 		);
 
 		if (!class_exists('\Deensimcpro_Marquee\Marqueepro')) {
-			$pro_url = 'https://marqueeaddons.com/pricing/';
+			$pro_url = 'https://marqueeaddons.com/pricing/?utm_source=wordpress.org';
 			$actions['upgrade_to_pro'] = sprintf(
 				'<a href="%1$s" target="_blank" style="color:#e2498a; font-weight: bold;">%2$s</a>',
 				esc_url($pro_url),
@@ -419,6 +331,7 @@ final class Marquee
 		return $actions;
 	}
 
+
 	function deensimc_add_categories($elements_manager)
 	{
 		$elements_manager->add_category(
@@ -428,7 +341,7 @@ final class Marquee
 				'icon' => 'fa fa-plug',
 			]
 		);
-		
+
 		// phpcs:ignore WordPress.NamingConventions.PrefixAllGlobals.NonPrefixedHooknameFound
 		if (!class_exists('\Deensimcpro_Marquee\Marqueepro') || !apply_filters('marquee_addons_is_license_active', false)) {
 			$elements_manager->add_category(
